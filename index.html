@@ -3,240 +3,1013 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CORAL : Correspondence Alignment for Improved Virtual Try-On.">
-    <meta name="keywords" content="visual dubbing, lip sync, diffusion transformer, video editing, generative ai">
-    
-    <title>CORAL: Correspondence Alignment for Improved Virtual Try-On</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>JAM-Flow: Joint Audio-Motion Synthesis with Flow Matching</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
             color: #333;
-            background: linear-gradient(135deg, #FFEFED 0%, #FEBDB9 100%);
-            min-height: 100vh;
+            line-height: 1.6;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* Header */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 70px 0;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        .title {
-                font-family: 'Space Grotesk', 'Inter', sans-serif;
-                font-size: 5.2rem;
-                font-weight: 800;
-                margin-bottom: 25px;
-                background: linear-gradient(90deg, #F57799 35%, #FDC3A1 55%, #FFF7CD 130%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                line-height: 1.1;
-                }
-        .subtitle {
-            font-size: 1.6rem; 
-            font-weight: 600;
-            color: #444;
-            line-height: 1.4;
-            margin-bottom: 30px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .title-mascot {
-        height: 1.85em;
-        width: auto;
-        transform: translateY(0.06em);
-        margin-right:-88px;
-        margin-bottom:-40px;
+            margin-bottom: 20px;
+            padding: 25px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
-        /* Authors & Affiliations */
-        .authors { font-size: 1.15rem; font-weight: 500; color: #444; margin-bottom: 15px; line-height: 1.8; }
-        .affiliations { font-size: 1rem; color: #666; margin-bottom: 35px; line-height: 1.6; }
-        .symbol { font-size: 0.85em; vertical-align: super; margin-left: 1px; }
-        .notes { font-size: 0.9rem; color: #888; margin-top: 10px; }
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
 
-        .links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg,  #FDC3A1 0%,  #F57799 100%);
+        .authors-section {
+            margin-bottom: 10px;
+        }
+
+        .authors-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .author {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .author a {
             color: white;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
         }
-        .link-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
 
-        /* Main Content */
-        .main-content { background: white; margin: 40px auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); overflow: hidden; }
-        .section { padding: 60px 40px; border-bottom: 1px solid #eee; }
-        .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 30px; text-align: center; color: #222; }
-        .section-title-small { font-size: 2.0rem; font-weight: 600; margin-bottom: 20px; text-align: center; }
+        .author a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
 
-        .main-video video { width: 100%; max-width: 1000px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); }
+        .author sup {
+            font-size: 0.9rem;
+            margin-left: 2px;
+        }
+
+        .affiliations {
+            font-size: 1.05rem;
+            opacity: 0.9;
+            margin-bottom: 6px;
+        }
+
+        .equal-notes {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .header-links {
+            margin-bottom: 8px;
+        }
+
+        .header-note {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 0 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .coming-soon-badge {
+            background: linear-gradient(45deg, #8b5cf6, #a78bfa);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .abstract-section {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+        }
+
+        .abstract-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .abstract-section p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            text-align: justify;
+            color: #444;
+        }
+
+        .teaser-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .teaser-placeholder {
+            background: #e9ecef;
+            border: 2px dashed #adb5bd;
+            padding: 60px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .teaser-placeholder h3 {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .tab-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .tab-header {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 16px 24px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6c757d;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            background: white;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .comparison-grid {
+            display: grid;
+            gap: 30px;
+        }
         
-        /* Features Grid - 原内容还原 */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
-        .feature-card { background: #f8f9fa; padding: 30px; border-radius: 15px; text-align: center; transition: transform 0.3s ease; border: 1px solid #eee; }
-        .feature-card:hover { transform: translateY(-5px); background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; color: #6a476d; }
-        .feature-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: #333; }
-        .feature-description { color: #666; line-height: 1.6; text-align: left; font-size: 0.95rem; }
+        .exclusive-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .exclusive-grid .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%; /* 1:1 Aspect Ratio */
+            overflow: hidden;
+            background: #000;
+            border-radius: 8px;
+            height: auto !important; /* Override general video-container height */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .exclusive-grid .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .exclusive-grid .video-container .label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
 
-        .method-image { width: 100%; margin: 20px 0; }
-        .method-text { max-width: 1000px; margin: 0 auto; color: #555; text-align: left; }
-        .narrow-left { max-width: 900px; margin: 0 auto; color: #666; text-align: center; }
+        .sample-row {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
 
-        @media (max-width: 768px) { .title { font-size: 3rem; } .section { padding: 40px 20px; } .features-grid { grid-template-columns: 1fr; } }
+        .sample-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #495057;
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        .method-item {
+            text-align: center;
+        }
+
+        .method-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            display: inline-block;
+            font-size: 0.8rem;
+        }
+
+        .method-label.gt { background: #d4edda; color: #155724; }
+        .method-label.ours-i2v { background: #fff3cd; color: #856404; }
+        .method-label.ours-v2v { background: #ffeaa7; color: #7d6608; }
+        .method-label.aniportrait { background: #d1ecf1; color: #0c5460; }
+        .method-label.hallo { background: #f8d7da; color: #721c24; }
+        .method-label.hallo3 { background: #e2e3e5; color: #383d41; }
+        .method-label.sadtalker { background: #e7e8ea; color: #41464b; }
+        .method-label.f5tts { background: #e2e3e5; color: #383d41; }
+        .method-label.ours { background: #fff3cd; color: #856404; }
+        .method-label.oursdagger { background: #ffeaa7; color: #7d6608; }
+        .method-label.hpm { background: #d1ecf1; color: #0c5460; }
+        .method-label.style { background: #e7e8ea; color: #41464b; }
+        .method-label.voicecraft { background: #f8d7da; color: #721c24; }
+
+        .video-container {
+            background: #000;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            height: 180px;
+        }
+        
+        #dubbing-grid .video-container {
+            aspect-ratio: 1/1;
+            height: auto;
+        }
+        
+        .audio-container {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            margin-top: 8px;
+        }
+        
+        .sample-prompt {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .tts-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .dubbing-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .placeholder {
+            background: #e9ecef;
+            border: 2px dashed #adb5bd;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 8px;
+            color: #6c757d;
+        }
+
+        .section-description {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .loading-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.9rem;
+            }
+            
+            .authors-list {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .author {
+                font-size: 1.05rem;
+            }
+            
+            .affiliations {
+                font-size: 0.95rem;
+            }
+            
+            .equal-notes {
+                font-size: 0.85rem;
+            }
+            
+            .btn {
+                margin: 5px;
+                padding: 10px 18px;
+            }
+            
+            .methods-grid, .tts-methods-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            
+            .dubbing-methods-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            
+            .exclusive-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .video-container {
+                height: 120px;
+            }
+            
+            #dubbing-grid .video-container {
+                aspect-ratio: 1/1;
+                height: auto;
+            }
+            
+            .method-label {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .sample-prompt {
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <div class="container">
-            <h1 class="title"> <img class="title-mascot" src="./image/coral-final.png" alt="coral mascot">  <span class="title-text">CORAL</span></h1>
-            <p class="subtitle">Correspondence Alignment for Improved Virtual Try-On</p>
-            
-            <div class="authors">
-                Jiyoung Kim<span class="symbol">1</span>, 
-                Haoxian Zhang<span class="symbol">3</span>, 
-                Hejia Chen<span class="symbol">1</span>, 
-                Changyuan Zheng<span class="symbol">1</span>, 
-                Liyang Chen<span class="symbol">1</span>,<br>
-                Songlin Tang<span class="symbol">4</span>, 
-                Pengfei Wan<span class="symbol">2</span>, 
-                Zhiyong Wu<span class="symbol">2</span>,
-                Seungryong Kim<span class="symbol">1,†</span>
-            </div>
-            
-            <div class="affiliations">
-                <span class="symbol">1</span>KAIST AI &nbsp;&nbsp;
-                <span class="symbol">2</span>NC AI &nbsp;&nbsp;
-                <span class="symbol">3</span>Yonsei University &nbsp;&nbsp;
-                <span class="symbol">4</span>Korea University &nbsp;&nbsp;
-                <div class="notes">
-                    †Corresponding Author
-                </div>
-            </div>
-            
-            <div class="links">
-                <a href="https://arxiv.org/abs/2512.25066" class="link-btn"><i class="fas fa-file-pdf"></i> arXiv</a>
-            </div>
-
-            <!-- 新增开源准备提示 -->
-            <div style="margin-top: 25px; font-size: 0.95rem; color: #F57799; background: rgba(255, 255, 255, 0.95); display: inline-block;
-            padding: 12px 25px; 
-            border-radius: 12px; 
-            border: 1px dashed #F57799; max-width: 800px;"> <i style="margin-right: 8px;"></i> <span style="font-weight: 800; letter-spacing: 0.02em;">COR</span>respondence <span style="font-weight: 800; letter-spacing: 0.02em;">AL</span>ignment (<span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span>) explicitly enhances person–garment correspondences by improving query–key matching in the full 3D attention of the DiT. </div>
-        </div>
-    </div>
-
     <div class="container">
-        <div class="main-content">
+        <div class="header">
+            <h1>JAM-Flow: Joint Audio-Motion Synthesis with Flow Matching</h1>
             
-            <!-- Demo Video -->
-            <div class="section">
-                <h2 class="section-title">Demo Video</h2>
-                <div class="main-video" style="text-align: center;">
-                    <video controls preload="auto" playsinline>
-                        <source src="./video/demo_video.mp4" type="video/mp4">
-                    </video>
+            <div class="authors-section">
+                Anonymized for ICLR2026 Submission
+            </div>
+
+            <div class="header-links">
+ 
+            </div>
+
+            <div class="header-note">
+                Please ensure to play videos with audio enabled after they are loaded for the full experience.
+                Videos and audios are compressed for maximum file size of ~100MB;
+            </div>
+        </div>
+
+        <div class="abstract-section">
+            <h2>Abstract</h2>
+            <p>The intrinsic link between facial motion and speech is often overlooked in generative modeling, where talking head synthesis and text-to-speech (TTS) are typically addressed as separate tasks. This paper introduces JAM-Flow, a unified framework to simultaneously synthesize and condition on both facial motion and speech. Our approach leverages flow matching and a novel Multi-Modal Diffusion Transformer (MM-DiT) architecture, integrating specialized Motion-DiT and Audio-DiT modules. These are coupled via selective joint attention layers and incorporate key architectural choices, such as temporally aligned positional embeddings and localized joint attention masking, to enable effective cross-modal interaction while preserving modality-specific strengths. Trained with an inpainting-style objective, JAM-Flow supports a wide array of conditioning inputs—including text, reference audio, and reference motion—facilitating tasks such as synchronized talking head generation from text, audio-driven animation, and much more, within a single, coherent model. JAM-Flow significantly advances multi-modal generative modeling by providing a practical solution for holistic audio-visual synthesis.</p>
+        </div>
+
+        <div class="teaser-section">
+            <video width="100%" controls autoplay loop muted playsinline>
+                <source src="0-teaser/conversation_video.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab-header">
+                <button class="tab-button active" onclick="showTab('talking-head')">Talking Head Comparison</button>
+                <button class="tab-button" onclick="showTab('tts')">TTS Comparison</button>
+                <button class="tab-button" onclick="showTab('dubbing')">Automated Dubbing</button>
+                <button class="tab-button" onclick="showTab('exclusive')">Our Exclusive Use Cases</button>
+                <button class="tab-button" onclick="showTab('demo')">Failure Cases</button>
+            </div>
+
+            <!-- Tab 1: Talking Head Comparison -->
+            <div id="talking-head" class="tab-content active">
+                <div class="section-description">
+                    <h3>Talking Head Lip-Sync Comparison on HDTF Dataset</h3>
+                    <p>Comparison of our JAM-Flow methods (I2V and V2V) with state-of-the-art talking head generation methods including SadTalker, AniPortrait, Hallo, and Hallo3. Each row shows the same input processed by different methods alongside the ground truth.</p>
                 </div>
-            </div>
-
-            <!-- HDTF Results -->
-            <div class="section">
-                <h2 class="section-title-small">Applications</h2>
-                <!-- <div class="main-video" style="text-align: center;">
-                    <video controls preload="metadata"><source src="./video/hdtf_39.mp4" type="video/mp4"></video>
-                </div> -->
-            </div>
-
-            <!-- ==================== NEW SECTION: Long Video  ==================== -->
-            <div class="section">
-                <h2 class="section-title-small">Abstract
-                </h2>
                 
-                <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555;">
-                    Existing methods for Virtual Try-On (VTON) often struggle to preserve fine garment details, especially in unpaired settings where accurate person-garment correspondence is required. These methods do not explicitly enforce person-garment alignment and fail to explain how correspondence emerges within Diffusion Transformers (DiTs). In this paper, we first analyze full 3D attention in DiTs-based architecture and reveal that person-garment correspondence critically depends on precise person→garment query-key matching within the full 3D attention. Building on this insight, we introduce <span style="font-weight: 800; letter-spacing: 0.02em;">COR</span>respondence <span style="font-weight: 800; letter-spacing: 0.02em;">AL</span>ignment (<span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span>), a DiT based framework that explicitly aligns query-key matching with robust external correspondences. CORAL integrates two complementary components: a correspondence distillation loss that aligns reliable matches with person→garment attention, and an entropy minimization loss that sharpens the attention distribution. We further propose a VLM-based evaluation protocol to better reflect human preference. CORAL consistently improves over the baseline, enhancing both global shape transfer and local detail preservation. Extensive ablations validate our design choices.
-                </p>
-            </div>
-
-            <!-- Method Overview -->
-            <div class="section">
-                <h2 class="section-title">Method Overview</h2>
-                <img src="./image/main_architecture.png" alt="Method Overview" class="method-image">
-                <div class="method-text">
-                    Overview of <strong>X-Dub</strong>, our self-bootstrapping dubbing framework. Our framework employs a DiT <em>generator</em> to create lip-altered counterparts, forming context-rich pairs. A DiT <em>editor</em> then learns mask-free dubbing from these pairs, leveraging the complete visual context to ensure accurate lip synchronization and identity preservation.
+                <div class="comparison-grid" id="hdtf-grid">
+                    <!-- Videos will be populated by JavaScript -->
                 </div>
             </div>
 
-            <!-- Key Features - 恢复原始内容 -->
-            <div class="section">
-                <h2 class="section-title">Key Features</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
-                        <h3 class="feature-title">Self-Bootstrapping, Context-Rich Dubbing</h3>
-                        <p class="feature-description">Learns from self-generated pairs and edits videos directly without explicit masks or reference frames, leveraging full-frame temporal context to cast dubbing as a complete editing task rather than partial inpainting.</p>
+            <!-- Tab 2: TTS Comparison -->
+            <div id="tts" class="tab-content">
+                <div class="section-description">
+                    <h3>Text-to-Speech Quality Comparison on LibriSpeech-PC test-clean</h3>
+                    <p>Audio quality comparison between F5-TTS baseline and our JAM-Flow methods. As mentioned in our paper, our primary model shows a slight decrease in TTS metrics compared to the original F5-TTS model. This is primarily attributed to the architectural modifications necessary for joint audio-motion synthesis—in pure TTS settings, our model lacks the motion cues it was designed to leverage. Nevertheless, it still delivers high-quality speech synthesis while offering significantly expanded capabilities for diverse downstream tasks. Our variant (marked with †) features a frozen Audio-DiT and no motion attention mask—a configuration closer to the original F5-TTS—which achieves better TTS metrics, while our primary model provides the optimal balance between audio quality and motion synthesis capabilities.</p>
+                </div>
+                
+                <div class="comparison-grid" id="tts-grid">
+                    <!-- Audio samples will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Tab 3: Automated Dubbing -->
+            <div id="dubbing" class="tab-content">
+                <div class="section-description">
+                    <h3>Automated Video Dubbing Performance</h3>
+                    <p>Demonstration of our method's capability in automated video dubbing, showing temporal alignment between generated speech and existing visual content. Compared with state-of-the-art methods including HPMDubbing, StyleDubber, and VoiceCraft-Dub.</p>
+                </div>
+                
+                <div class="comparison-grid" id="dubbing-grid">
+                    <!-- Videos will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Tab 4: Our Exclusive Use Cases -->
+            <div id="exclusive" class="tab-content">
+                <div class="section-description">
+                    <h3>Our Exclusive Capabilities</h3>
+                    <p>JAM-Flow enables unique cross-modal generation capabilities that showcase the flexibility of our joint audio-motion model. Due to size limitations, we present a selection of interesting cases below. Many more combinations are possible with our unified framework.</p>
+                </div>
+                
+                <!-- Case 1: Text to Audio+Motion -->
+                <div class="use-case-section">
+                    <h4 style="color: #667eea; margin: 30px 0 15px 0;">Case 1: Text → Audio + Motion</h4>
+                    <p style="margin-bottom: 20px;">The most straightforward multimodal generation case. Given only text input, our model generates both synchronized audio and motion from scratch.</p>
+                    <div class="exclusive-grid" id="case1-grid">
+                        <!-- Videos will be populated by JavaScript -->
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-wave-square"></i></div>
-                        <h3 class="feature-title">Accurate, Natural Lip-Sync</h3>
-                        <p class="feature-description">Produces speech-aligned lip movements while avoiding leakage and off-target edits, delivering accurate, artifact-free synchronization that reads naturally on frame and in motion.</p>
+                </div>
+                
+                <!-- Case 2: Text + Reference Audio to Audio+Motion -->
+                <div class="use-case-section">
+                    <h4 style="color: #667eea; margin: 30px 0 15px 0;">Case 2: Text + Reference Audio → Audio + Motion</h4>
+                    <p style="margin-bottom: 20px;">Similar to Case 1, but with added voice cloning capability. The model generates audio matching the reference speaker's voice characteristics while creating synchronized motion.</p>
+                    <div class="exclusive-grid" id="case2-grid">
+                        <!-- Videos will be populated when samples are available -->
+                        <div class="placeholder" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                            <p style="color: #6c757d;">Samples coming soon...</p>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
-                        <h3 class="feature-title">Consistent Identity, Unlimited Duration</h3>
-                        <p class="feature-description">Preserves face identity and head pose across extended sequences by exploiting rich video context, maintaining temporal consistency without drift or identity collapse even in unlimited-duration dubbing.</p>
+                </div>
+                
+                <!-- Case 3: Reference Motion + Different Text to Audio -->
+                <div class="use-case-section">
+                    <h4 style="color: #667eea; margin: 30px 0 15px 0;">Case 3: Reference Motion + Target Text → Audio</h4>
+                    <p style="margin-bottom: 20px;">This case demonstrates audio generation constrained by existing motion. To ensure temporal alignment between text and video length, we reorder the words from the original prompt rather than using entirely different content. For example: "JAM-Flow matches audio to video" becomes "Audio to video JAM-Flow matches". This maintains approximate text length while creating different semantic ordering, showcasing how our model adapts audio generation to fit frozen motion patterns with altered content.</p>
+                    <div class="exclusive-grid" id="case3-grid">
+                        <!-- Videos will be populated by JavaScript -->
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-magic"></i></div>
-                        <h3 class="feature-title">Robust to Occlusions, Lighting, and Styles</h3>
-                        <p class="feature-description">Handles occlusions and challenging lighting, and generalizes to stylized, non-human, and AI-generated characters, extending beyond traditional face-dependent methods.</p>
+                </div>
+                
+                <!-- Case 4: Motion to Audio (no text) -->
+                <div class="use-case-section">
+                    <h4 style="color: #667eea; margin: 30px 0 15px 0;">Case 4: Reference Motion → Audio (without text)</h4>
+                    <p style="margin-bottom: 20px;">An extreme case where the model must infer appropriate audio solely from motion patterns, without any text cues. <strong>Note:</strong> Without textual guidance, the model does not generate proper sentences or meaningful words. However, the generated audio still exhibits reasonable synchronization with lip movements, demonstrating the model's learned audio-visual correlations at a phonetic level rather than semantic level.</p>
+                    <div class="exclusive-grid" id="case4-grid">
+                        <!-- Videos will be populated by JavaScript -->
                     </div>
                 </div>
             </div>
 
-            <!-- Acknowledgments -->
-            <div class="section">
-                <h2 class="section-title">Acknowledgments</h2>
-                <p class="narrow-left" style="text-align: left;">
-                    We gratefully acknowledge the open resources provided by 
-                <a href="https://civitai.com" style="color: #444; text-decoration: none; font-weight: 500;">Civitai</a>, 
-                <a href="https://mixkit.co/" style="color: #444; text-decoration: none; font-weight: 500;">Mixkit</a>, and 
-                <a href="https://www.pexels.com/" style="color: #444; text-decoration: none; font-weight: 500;">Pexels</a>.  
-                The demonstration videos include both real-world and generative materials sourced from these platforms, 
-                which help illustrate the generality and robustness of our dubbing system.  
-                All materials are used for research and demonstration purposes only.
-                </p>
+            <!-- Tab 5: Failure Cases -->
+            <div id="demo" class="tab-content">
+                <div class="section-description">
+                    <h3>Failure Cases Analysis</h3>
+                    <p>We present two categories of failure cases to provide transparent insight into current limitations of our approach. Understanding these boundaries is crucial for future improvements.</p>
+                </div>
+                
+                <!-- Case 1: Input Length Mismatch -->
+                <div class="use-case-section">
+                    <h4 style="color: #dc3545; margin: 30px 0 15px 0;">Case 1: Input Length Mismatch Between Modalities</h4>
+                    <p style="margin-bottom: 20px;">When there is significant length mismatch between input modalities (text, audio, motion), the model struggles to maintain proper lip-sync. While our model typically handles minor mismatches by generating natural interjections (sighs, "aha", "ahh", "oh"), severe length discrepancies can cause synchronization failures where lip movements no longer align with the generated audio or text content.</p>
+                    <div class="exclusive-grid" id="failure-case1-grid">
+                        <!-- Videos will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Case 2: LivePortrait Base Model Keypoint Detection Failure -->
+                <div class="use-case-section">
+                    <h4 style="color: #dc3545; margin: 30px 0 15px 0;">Case 2: LivePortrait Base Model Keypoint Detection Failure</h4>
+                    <p style="margin-bottom: 20px;">Our approach relies on LivePortrait base model for keypoint detection and warping. When LivePortrait fails to detect facial keypoints—particularly common with non-realistic images like flat cartoons or highly stylized artwork in image-to-video (I2V) setups—our model cannot generate proper motion. This fundamental dependency means that inputs outside LivePortrait's detection capabilities will result in suboptimal or failed generation.</p>
+                    <div class="exclusive-grid" id="failure-case2-grid">
+                        <!-- Videos will be populated by JavaScript -->
+                    </div>
+                </div>
             </div>
-
-            <!-- Ethical Considerations & Contact -->
-            <div class="section" style="border-bottom: none;">
-                <h2 class="section-title">Ethical Considerations</h2>
-                <p class="narrow-left">
-                    All video and audio materials presented on this page are used solely for academic research to illustrate the technical scope of visual dubbing. No identity, likeness, or content ownership beyond research illustration is implied.
-                </p>
-                <p class="narrow-left" style="margin-top: 10px; font-weight: 600; color: #444;">
-                    If you have any questions, please contact: <a href="mailto:hexu18@mails.tsinghua.edu.cn" style="color: #6a476d;">hexu18@mails.tsinghua.edu.cn</a>
-                </p>
-            </div>
-
         </div>
     </div>
 
+    <script>
+        // Sample data extracted from the file structure
+        const hdtfSamples = [
+            'RD_Radio1_000',
+            'RD_Radio2_000',
+            'RD_Radio3_000',
+            'RD_Radio4_000',
+            'RD_Radio5_000',
+            'RD_Radio7_000',
+            'RD_Radio8_000',
+            'RD_Radio9_000',
+            'RD_Radio10_000',
+            'RD_Radio11_000',
+            'RD_Radio11_001',
+            'RD_Radio12_000',
+            'RD_Radio13_000',
+            'RD_Radio14_000'
+        ];
+
+        const methods = [
+            { key: 'GT', label: 'Ground Truth', class: 'gt' },
+            { key: 'sadtalker', label: 'SadTalker', class: 'sadtalker' },
+            { key: 'aniportrait', label: 'AniPortrait', class: 'aniportrait' },
+            { key: 'hallo', label: 'Hallo', class: 'hallo' },
+            { key: 'hallo3', label: 'Hallo3', class: 'hallo3' },
+            { key: 'ours_i2v', label: 'Ours (I2V)', class: 'ours-i2v' },
+            { key: 'ours_v2v', label: 'Ours (V2V)', class: 'ours-v2v' }
+        ];
+
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function generateHDTFGrid() {
+            const grid = document.getElementById('hdtf-grid');
+            
+            hdtfSamples.forEach(sample => {
+                const sampleRow = document.createElement('div');
+                sampleRow.className = 'sample-row';
+                
+                const methodsGrid = document.createElement('div');
+                methodsGrid.className = 'methods-grid';
+                
+                methods.forEach(method => {
+                    const methodItem = document.createElement('div');
+                    methodItem.className = 'method-item';
+                    
+                    const methodLabel = document.createElement('div');
+                    methodLabel.className = `method-label ${method.class}`;
+                    methodLabel.textContent = method.label;
+                    methodItem.appendChild(methodLabel);
+                    
+                    const videoContainer = document.createElement('div');
+                    videoContainer.className = 'video-container';
+                    
+                    // Create video element for all methods
+                    const video = document.createElement('video');
+                    video.controls = true;
+                    video.preload = 'metadata';
+                    video.src = `1-talkinghead-hdtf/${sample}_${method.key}.mp4`;
+                    
+                    // Add error handling
+                    video.onerror = function() {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'placeholder';
+                        errorDiv.style.height = '100%';
+                        errorDiv.style.display = 'flex';
+                        errorDiv.style.alignItems = 'center';
+                        errorDiv.style.justifyContent = 'center';
+                        errorDiv.innerHTML = '<span style="font-size: 0.8rem;">Video not found</span>';
+                        videoContainer.replaceChild(errorDiv, video);
+                    };
+                    
+                    videoContainer.appendChild(video);
+                    
+                    methodItem.appendChild(videoContainer);
+                    methodsGrid.appendChild(methodItem);
+                });
+                
+                sampleRow.appendChild(methodsGrid);
+                grid.appendChild(sampleRow);
+            });
+        }
+
+        // TTS Sample data
+        const ttsSamples = [
+            { id: '2300-131720-0030', text: 'The principle employed in the Edison electrolytic meter is that which exemplifies the power of electricity to decompose a chemical substance.' },
+            { id: '3570-5695-0008', text: 'The question is, which of the two methods will most effectively reach the persons whose convictions it is desired to affect.' },
+            { id: '3575-170457-0030', text: 'Of this second letter, also, she spoke, and told me that it contained an invitation for her to go and see the poet if ever she visited the Lakes.' },
+            { id: '4507-16021-0049', text: 'There is hardly one day out of a hundred which is wholly joyous and sunny.' },
+            { id: '4970-29095-0009', text: 'Margaret Bolton almost lost for a moment her habitual placidity.' },
+            { id: '4992-41797-0014', text: 'When she could not make a rabbit or a bird look "real" on paper, she searched in her father\'s books for pictures of its bones.' },
+            { id: '61-70968-0019', text: 'It is enough," said George Gamewell, sharply, and he turned upon the crowd.' },
+            { id: '672-122797-0051', text: 'I am by no means old," said the Fir Tree.' },
+            { id: '6829-68769-0020', text: 'Sit down, please," said Gates, in a cheerful and pleasant voice. "There\'s a bench here".' },
+            { id: '7729-102255-0033', text: 'As he had promised to protect the hotel, the reassured citizens began to laugh at their own fears.' }
+        ];
+
+        const ttsModels = [
+            { key: 'f5tts', label: 'F5-TTS', class: 'f5tts' },
+            { key: 'ours', label: 'Ours', class: 'ours' },
+            { key: 'oursdagger', label: 'Ours†', class: 'oursdagger' }
+        ];
+
+        function generateTTSGrid() {
+            const grid = document.getElementById('tts-grid');
+            
+            ttsSamples.forEach(sample => {
+                const sampleRow = document.createElement('div');
+                sampleRow.className = 'sample-row';
+                
+                // Add the text prompt
+                const samplePrompt = document.createElement('div');
+                samplePrompt.className = 'sample-prompt';
+                samplePrompt.innerHTML = `<strong>Prompt:</strong> ${sample.text}`;
+                sampleRow.appendChild(samplePrompt);
+                
+                const methodsGrid = document.createElement('div');
+                methodsGrid.className = 'tts-methods-grid';
+                
+                ttsModels.forEach(model => {
+                    const methodItem = document.createElement('div');
+                    methodItem.className = 'method-item';
+                    
+                    const methodLabel = document.createElement('div');
+                    methodLabel.className = `method-label ${model.class}`;
+                    methodLabel.textContent = model.label;
+                    methodItem.appendChild(methodLabel);
+                    
+                    const audioContainer = document.createElement('div');
+                    audioContainer.className = 'audio-container';
+                    
+                    // Create audio element
+                    const audio = document.createElement('audio');
+                    audio.controls = true;
+                    audio.preload = 'metadata';
+                    audio.src = `2-tts-librispeech/${sample.id}_${model.key}.wav`;
+                    
+                    // Add error handling
+                    audio.onerror = function() {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'placeholder';
+                        errorDiv.style.padding = '10px';
+                        errorDiv.innerHTML = '<span style="font-size: 0.8rem;">Audio not found</span>';
+                        audioContainer.replaceChild(errorDiv, audio);
+                    };
+                    
+                    audioContainer.appendChild(audio);
+                    
+                    methodItem.appendChild(audioContainer);
+                    methodsGrid.appendChild(methodItem);
+                });
+                
+                sampleRow.appendChild(methodsGrid);
+                grid.appendChild(sampleRow);
+            });
+        }
+
+        // Dubbing Sample data
+        const dubbingSamples = [
+            { id: 'sample1', text: 'It is finding your own voice where your own voice sits naturally and stably and healthily' },
+            { id: 'sample2', text: 'You want that alien broad take her' },
+            { id: 'sample3', text: 'Squarespace makes it incredibly simple to create beautiful websites with their all in one platform' },
+            { id: 'sample4', text: 'We do not need a European court' },
+            { id: 'sample5', text: 'And any time I am passing it I stop and watch it too' },
+            { id: 'sample6', text: 'Now before you add those in if you want to have a little bit of a thicker soup what you will do' },
+            { id: 'sample7', text: 'If you saw my video about the custom Christian clings with a salmon dial you might remember that we spoke about Mark Cho the co-founder of the Armory co-owner of Drakes' },
+            { id: 'sample8', text: 'For more videos on RPGs though just' },
+            { id: 'sample9', text: 'He forgot me at the coffee shop when all I wanted to do was go and talk to him' },
+            { id: 'sample10', text: 'And I am not sacrificing what' },
+            { id: 'sample11', text: 'Low prices can also give you a chance to practice your skills on people who do not expect huge outcomes or results because they know they are getting a deal' },
+            { id: 'sample12', text: 'This older sister that she looks up to and that she sees as so successful and beautiful' },
+            { id: 'sample13', text: 'But you still have a chance to make things right because I am here' },
+            { id: 'sample14', text: 'I know what is on the other side' },
+            { id: 'sample15', text: 'I did it because I was foolish' }
+        ];
+
+        const dubbingMethods = [
+            { key: 'gt', label: 'Ground Truth', class: 'gt' },
+            { key: 'hpm', label: 'HPMDubbing', class: 'hpm' },
+            { key: 'style', label: 'StyleDubber', class: 'style' },
+            { key: 'voicecraft', label: 'VoiceCraft-Dub', class: 'voicecraft' },
+            { key: 'jamflow', label: 'Ours', class: 'ours' }
+        ];
+
+        function generateDubbingGrid() {
+            const grid = document.getElementById('dubbing-grid');
+            
+            dubbingSamples.forEach(sample => {
+                const sampleRow = document.createElement('div');
+                sampleRow.className = 'sample-row';
+                
+                // Add the text prompt
+                const samplePrompt = document.createElement('div');
+                samplePrompt.className = 'sample-prompt';
+                samplePrompt.innerHTML = `<strong>Prompt:</strong> ${sample.text}`;
+                sampleRow.appendChild(samplePrompt);
+                
+                const methodsGrid = document.createElement('div');
+                methodsGrid.className = 'dubbing-methods-grid';
+                
+                dubbingMethods.forEach(method => {
+                    const methodItem = document.createElement('div');
+                    methodItem.className = 'method-item';
+                    
+                    const methodLabel = document.createElement('div');
+                    methodLabel.className = `method-label ${method.class}`;
+                    methodLabel.textContent = method.label;
+                    methodItem.appendChild(methodLabel);
+                    
+                    const videoContainer = document.createElement('div');
+                    videoContainer.className = 'video-container';
+                    
+                    // Create video element
+                    const video = document.createElement('video');
+                    video.controls = true;
+                    video.preload = 'metadata';
+                    video.src = `3-automated-dubbing/${sample.id}_${method.key}.mp4`;
+                    
+                    // Add error handling
+                    video.onerror = function() {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'placeholder';
+                        errorDiv.style.height = '100%';
+                        errorDiv.style.display = 'flex';
+                        errorDiv.style.alignItems = 'center';
+                        errorDiv.style.justifyContent = 'center';
+                        errorDiv.innerHTML = '<span style="font-size: 0.8rem;">Video not found</span>';
+                        videoContainer.replaceChild(errorDiv, video);
+                    };
+                    
+                    videoContainer.appendChild(video);
+                    
+                    methodItem.appendChild(videoContainer);
+                    methodsGrid.appendChild(methodItem);
+                });
+                
+                sampleRow.appendChild(methodsGrid);
+                grid.appendChild(sampleRow);
+            });
+        }
+
+        // Generate Exclusive Use Cases grids
+        function generateExclusiveGrids() {
+            // Case 1: Text to Audio+Motion (15 samples = 3 rows)
+            const case1Grid = document.getElementById('case1-grid');
+            const case1Samples = [];
+            for (let i = 1; i <= 15; i++) {
+                case1Samples.push(`case1-${String(i).padStart(5, '0')}.mp4`);
+            }
+            
+            case1Samples.forEach((sample) => {
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+                videoContainer.innerHTML = `
+                    <video controls>
+                        <source src="4-ours/${sample}" type="video/mp4" onerror="handleVideoError(this)">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                case1Grid.appendChild(videoContainer);
+            });
+            
+            // Case 2: Text + Reference Audio to Audio+Motion (15 samples = 3 rows)
+            const case2Grid = document.getElementById('case2-grid');
+            case2Grid.innerHTML = ''; // Clear placeholder
+            const case2Samples = [];
+            for (let i = 1; i <= 15; i++) {
+                case2Samples.push(`case2-${String(i).padStart(5, '0')}.mp4`);
+            }
+            
+            case2Samples.forEach((sample) => {
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+                videoContainer.innerHTML = `
+                    <video controls>
+                        <source src="4-ours/${sample}" type="video/mp4" onerror="handleVideoError(this)">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                case2Grid.appendChild(videoContainer);
+            });
+            
+            // Case 3: Reference Motion + Target Text to Audio (15 samples = 3 rows)
+            const case3Grid = document.getElementById('case3-grid');
+            case3Grid.innerHTML = ''; // Clear placeholder
+            const case3Samples = [];
+            for (let i = 1; i <= 15; i++) {
+                case3Samples.push(`case3-${String(i).padStart(5, '0')}.mp4`);
+            }
+            
+            case3Samples.forEach((sample) => {
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+                videoContainer.innerHTML = `
+                    <video controls>
+                        <source src="4-ours/${sample}" type="video/mp4" onerror="handleVideoError(this)">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                case3Grid.appendChild(videoContainer);
+            });
+            
+            // Case 4: Reference Motion to Audio without text (15 samples = 3 rows)
+            const case4Grid = document.getElementById('case4-grid');
+            case4Grid.innerHTML = ''; // Clear placeholder
+            const case4Samples = [];
+            for (let i = 1; i <= 15; i++) {
+                case4Samples.push(`case4-${String(i).padStart(5, '0')}.mp4`);
+            }
+            
+            case4Samples.forEach((sample) => {
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+                videoContainer.innerHTML = `
+                    <video controls>
+                        <source src="4-ours/${sample}" type="video/mp4" onerror="handleVideoError(this)">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                case4Grid.appendChild(videoContainer);
+            });
+        }
+        
+        // Generate Failure Cases grids
+        function generateFailureCasesGrids() {
+            // Failure Case 1: Input Mismatch (5 samples = 1 row)
+            const failureCase1Grid = document.getElementById('failure-case1-grid');
+            const failureCase1Samples = ['case1-00001.mp4', 'case1-00002.mp4', 'case1-00003.mp4', 'case1-00004.mp4', 'case1-00005.mp4'];
+            
+            failureCase1Samples.forEach((sample) => {
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+                videoContainer.innerHTML = `
+                    <video controls>
+                        <source src="5-limitation/${sample}" type="video/mp4" onerror="handleVideoError(this)">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                failureCase1Grid.appendChild(videoContainer);
+            });
+            
+            // Failure Case 2: Keypoint Detection Failure (5 samples = 1 row)
+            const failureCase2Grid = document.getElementById('failure-case2-grid');
+            const failureCase2Samples = [];
+            for (let i = 1; i <= 5; i++) {
+                failureCase2Samples.push(`case2-${String(i).padStart(5, '0')}.mp4`);
+            }
+            
+            failureCase2Samples.forEach((sample) => {
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+                videoContainer.innerHTML = `
+                    <video controls>
+                        <source src="5-limitation/${sample}" type="video/mp4" onerror="handleVideoError(this)">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                failureCase2Grid.appendChild(videoContainer);
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            generateHDTFGrid();
+            generateTTSGrid();
+            generateDubbingGrid();
+            generateExclusiveGrids();
+            generateFailureCasesGrids();
+        });
+    </script>
 </body>
 </html>

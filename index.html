@@ -3005,7 +3005,7 @@
             <div class="section">
                 <h2 class="section-title">Conclusion</h2>
                 <p class="narrow-left" style="text-align: left; max-width: 900px; margin: 0 auto 30px auto; color: #555;">
-                    We present <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span>, a model-agnostic correspondence loss that directly supervises garment–person alignment through cross-attention maps in diffusion-based virtual try-on. By leveraging pre-computed dense correspondences as supervision signals, CORAL enables fine-grained detail preservation without architectural modifications. Our extensive experiments demonstrate consistent improvements across multiple baselines and datasets, validating CORAL as a simple yet effective plug-in for enhancing virtual try-on quality.
+                    We analyze how person–garment correspondence is established within DiT-based VTON and show that RGB-space alignment depends on accurate query–key correspondence. We introduce <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span>, a framework that aligns person–garment query–key matches with robust DINOv2 correspondences through a correspondence distillation loss and an entropy minimization loss to sharpen attention. <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> achieves state-of-the-art performance across all standard benchmarks as well as an in-the-wild benchmark. Extensive analyses and ablation studies further demonstrate the effectiveness of our design choices.
                 </p>
             </div>
 

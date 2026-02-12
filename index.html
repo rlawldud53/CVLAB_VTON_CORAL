@@ -3103,8 +3103,13 @@
         raf = requestAnimationFrame(tick);
         }
 
+        // Results 섹션 여부 확인
+        const isInResults = !!el.closest('#results');
+
         // limit follow to pointer movement inside this compare element
         el.addEventListener('mousemove', (e) => {
+            // Results 섹션이면 이벤트 전파 중단 (독립 동작)
+            if (isInResults) e.stopPropagation();
             pause();
             const rect = el.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -3114,13 +3119,14 @@
         });
         el.addEventListener('touchmove', (e) => {
             if (!e.touches || !e.touches[0]) return;
+            if (isInResults) e.stopPropagation();
             pause();
             const rect = el.getBoundingClientRect();
             const x = e.touches[0].clientX - rect.left;
             const percent = (x / rect.width) * 100;
             const clamped = clamp(percent, min, max);
             setPos(clamped);
-        }, { passive: true });
+        }, { passive: false });
 
         // start animation
         start();

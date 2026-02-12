@@ -436,21 +436,24 @@
         /* Magnifier (돋보기) 효과 */
         .magnifier {
             position: fixed;
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            border: 3px solid rgba(245, 119, 153, 0.8);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.3);
+            border: 3px solid rgba(245, 119, 153, 0.9);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.3);
             pointer-events: none;
             z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.15s ease;
+            display: none;
             background-repeat: no-repeat;
             background-color: #fff;
             overflow: hidden;
+            will-change: transform, background-position;
         }
         .magnifier.active {
-            opacity: 1;
+            display: block;
+        }
+        .compare-after {
+            cursor: zoom-in;
         }
         .magnifier::after {
             content: '';
@@ -2656,21 +2659,21 @@
                     <div class="results-item">
                         <div style="background: white; border-radius: 0; padding: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                             <div style="width: 100%; height: 100%; border-radius: 0; overflow: hidden; background: #fafafa;">
-                                <img src="./image/06396_00.jpg" alt="Garment" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
+                                <img src="./image/quan_comp/404_2.png" alt="Garment" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
                             </div>
                         </div>
                     </div>
                     <div class="results-item">
                         <div style="background: white; border-radius: 0; padding: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                             <div style="width: 100%; height: 100%; border-radius: 0; overflow: hidden; background: #fafafa;">
-                                <img src="./image/00006_00.png" alt="Input" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
+                                <img src="./image/quan_comp/1272_7.png" alt="Input" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
                             </div>
                         </div>
                     </div>
                     <div class="results-item">
                         <div class="compare" data-auto="true" data-speed="22" data-min="5" data-max="95" style="width: 100%; border-radius: 0; overflow: hidden;">
-                            <img class="compare-before" src="./image/00006_00.png" alt="Result 11" style="width: 100%; height: 100%; object-fit: contain;">
-                            <img class="compare-after" src="./image/00006_00_result.png" alt="Result 11" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-before" src="./image/quan_comp/1272_7.png" alt="Result 11" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-after" src="./image/quan_comp/1272_7_ootd.png" alt="Result 11" style="width: 100%; height: 100%; object-fit: contain;">
                             <div class="compare-badge before">result ⮕</div>
                             <div class="compare-badge after">⬅ input person</div>
                             <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Image comparison slider">
@@ -2679,8 +2682,8 @@
                     </div>
                     <div class="results-item">
                         <div class="compare" data-auto="true" data-speed="22" data-min="5" data-max="95" style="width: 100%; border-radius: 0; overflow: hidden;">
-                            <img class="compare-before" src="./image/00006_00.png" alt="Result 12" style="width: 100%; height: 100%; object-fit: contain;">
-                            <img class="compare-after" src="./image/00006_00_result.png" alt="Result 12" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-before" src="./image/quan_comp/1272_7.png" alt="Result 12" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-after" src="./image/quan_comp/1272_7_catvton.png" alt="Result 12" style="width: 100%; height: 100%; object-fit: contain;">
                             <div class="compare-badge before">result ⮕</div>
                             <div class="compare-badge after">⬅ input person</div>
                             <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Image comparison slider">
@@ -2689,8 +2692,8 @@
                     </div>
                     <div class="results-item">
                         <div class="compare" data-auto="true" data-speed="22" data-min="5" data-max="95" style="width: 100%; border-radius: 0; overflow: hidden;">
-                            <img class="compare-before" src="./image/00006_00.png" alt="Result 13" style="width: 100%; height: 100%; object-fit: contain;">
-                            <img class="compare-after" src="./image/00006_00_result.png" alt="Result 13" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-before" src="./image/quan_comp/1272_7.png" alt="Result 13" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-after" src="./image/quan_comp/1272_7_idm.png" alt="Result 13" style="width: 100%; height: 100%; object-fit: contain;">
                             <div class="compare-badge before">result ⮕</div>
                             <div class="compare-badge after">⬅ input person</div>
                             <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Image comparison slider">
@@ -2699,8 +2702,8 @@
                     </div>
                     <div class="results-item">
                         <div class="compare" data-auto="true" data-speed="22" data-min="5" data-max="95" style="width: 100%; border-radius: 0; overflow: hidden;">
-                            <img class="compare-before" src="./image/00006_00.png" alt="Result 14" style="width: 100%; height: 100%; object-fit: contain;">
-                            <img class="compare-after" src="./image/00006_00_result.png" alt="Result 14" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-before" src="./image/quan_comp/1272_7.png" alt="Result 14" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-after" src="./image/quan_comp/1272_7_any2any.png" alt="Result 14" style="width: 100%; height: 100%; object-fit: contain;">
                             <div class="compare-badge before">result ⮕</div>
                             <div class="compare-badge after">⬅ input person</div>
                             <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Image comparison slider">
@@ -2709,8 +2712,8 @@
                     </div>
                     <div class="results-item">
                         <div class="compare" data-auto="true" data-speed="22" data-min="5" data-max="95" style="width: 100%; border-radius: 0; overflow: hidden;">
-                            <img class="compare-before" src="./image/00006_00.png" alt="Result 15" style="width: 100%; height: 100%; object-fit: contain;">
-                            <img class="compare-after" src="./image/00006_00_result.png" alt="Result 15" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-before" src="./image/quan_comp/1272_7.png" alt="Result 15" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img class="compare-after" src="./image/quan_comp/1272_7_ours.png" alt="Result 15" style="width: 100%; height: 100%; object-fit: contain;">
                             <div class="compare-badge before">result ⮕</div>
                             <div class="compare-badge after">⬅ input person</div>
                             <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Image comparison slider">
@@ -3258,95 +3261,95 @@
 
     // ===== Magnifier (돋보기) 기능 =====
     (function(){
-        // 돋보기 엘리먼트 생성
         const magnifier = document.createElement('div');
         magnifier.className = 'magnifier';
         document.body.appendChild(magnifier);
 
-        const ZOOM = 2.5; // 확대 배율
-        const SIZE = 180; // 돋보기 크기 (px)
-        let currentImg = null;
+        const ZOOM = 3; // 확대 배율
+        const SIZE = 150; // 돋보기 크기 (px)
+        let activeImg = null;
+        let rafId = null;
 
-        function showMagnifier(img, e) {
-            if (!img || !img.src) return;
-
+        function updateMagnifier(img, clientX, clientY) {
             const rect = img.getBoundingClientRect();
             
             // 마우스 위치 (이미지 기준 비율)
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            
+            // 이미지 영역 밖이면 숨김
+            if (x < 0 || x > rect.width || y < 0 || y > rect.height) {
+                magnifier.classList.remove('active');
+                return;
+            }
+            
             const percX = x / rect.width;
             const percY = y / rect.height;
 
-            // 이미지 원본 크기 기준 확대 배경 설정
+            // 확대 배경 설정
             const bgWidth = rect.width * ZOOM;
             const bgHeight = rect.height * ZOOM;
-
-            // 배경 위치 계산 (돋보기 중심에 해당 부분이 오도록)
             const bgX = -(percX * bgWidth - SIZE / 2);
             const bgY = -(percY * bgHeight - SIZE / 2);
 
+            // 돋보기 위치 (마우스 커서 바로 위에)
+            let magX = clientX - SIZE / 2;
+            let magY = clientY - SIZE - 15;
+
+            // 화면 경계 처리
+            if (magY < 10) magY = clientY + 20;
+            if (magX < 10) magX = 10;
+            if (magX + SIZE > window.innerWidth - 10) magX = window.innerWidth - SIZE - 10;
+
+            magnifier.style.left = magX + 'px';
+            magnifier.style.top = magY + 'px';
             magnifier.style.backgroundImage = `url('${img.src}')`;
             magnifier.style.backgroundSize = `${bgWidth}px ${bgHeight}px`;
             magnifier.style.backgroundPosition = `${bgX}px ${bgY}px`;
-
-            // 돋보기 위치 (마우스 옆에 표시)
-            const magX = e.clientX + 20;
-            const magY = e.clientY - SIZE / 2;
-
-            // 화면 밖으로 나가지 않도록 조정
-            const maxX = window.innerWidth - SIZE - 10;
-            const maxY = window.innerHeight - SIZE - 10;
-            magnifier.style.left = Math.min(Math.max(10, magX), maxX) + 'px';
-            magnifier.style.top = Math.min(Math.max(10, magY), maxY) + 'px';
-
             magnifier.classList.add('active');
-            currentImg = img;
         }
 
         function hideMagnifier() {
             magnifier.classList.remove('active');
-            currentImg = null;
+            activeImg = null;
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
         }
 
-        // compare-after 이미지에 마우스 이벤트 바인딩
-        document.addEventListener('mousemove', (e) => {
-            const afterImg = e.target.closest('.compare-after');
-            if (afterImg) {
-                showMagnifier(afterImg, e);
-            } else if (currentImg) {
-                hideMagnifier();
-            }
+        // 각 compare-after 이미지에 직접 이벤트 바인딩
+        function bindMagnifier(img) {
+            img.addEventListener('mouseenter', function(e) {
+                activeImg = img;
+                updateMagnifier(img, e.clientX, e.clientY);
+            });
+            
+            img.addEventListener('mousemove', function(e) {
+                if (rafId) return;
+                rafId = requestAnimationFrame(() => {
+                    updateMagnifier(img, e.clientX, e.clientY);
+                    rafId = null;
+                });
+            });
+            
+            img.addEventListener('mouseleave', hideMagnifier);
+        }
+
+        // 모든 compare-after 이미지에 바인딩
+        document.querySelectorAll('.compare-after').forEach(bindMagnifier);
+
+        // 동적으로 추가되는 이미지를 위한 MutationObserver
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1) {
+                        if (node.classList && node.classList.contains('compare-after')) {
+                            bindMagnifier(node);
+                        }
+                        node.querySelectorAll && node.querySelectorAll('.compare-after').forEach(bindMagnifier);
+                    }
+                });
+            });
         });
-
-        document.addEventListener('mouseleave', hideMagnifier);
-
-        // 터치 디바이스: 길게 누르면 돋보기 표시
-        let touchTimer = null;
-        document.addEventListener('touchstart', (e) => {
-            const afterImg = e.target.closest('.compare-after');
-            if (afterImg && e.touches[0]) {
-                touchTimer = setTimeout(() => {
-                    showMagnifier(afterImg, { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
-                }, 300);
-            }
-        }, { passive: true });
-
-        document.addEventListener('touchmove', (e) => {
-            if (currentImg && e.touches[0]) {
-                const afterImg = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
-                if (afterImg && afterImg.classList.contains('compare-after')) {
-                    showMagnifier(afterImg, { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
-                } else {
-                    hideMagnifier();
-                }
-            }
-        }, { passive: true });
-
-        document.addEventListener('touchend', () => {
-            if (touchTimer) clearTimeout(touchTimer);
-            hideMagnifier();
-        });
+        observer.observe(document.body, { childList: true, subtree: true });
     })();
     </script>
 

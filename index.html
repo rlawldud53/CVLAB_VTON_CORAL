@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -152,6 +154,38 @@
             object-position: center;
         }
 
+        /* Performance Gains (Baseline) badge 위치 */
+        .result-set[data-group="perf"] .compare-badge {
+            /* 개별 before/after에 직접 지정 */
+        }
+        .result-set[data-group="perf"] .compare-badge.before {
+            left: -2.5rem !important;
+            top: 2.0rem !important;
+            transform: none !important;
+            z-index: 99 !important;
+            display: block !important;
+            opacity: 1 !important;
+        }
+        .result-set[data-group="perf"] .compare-badge.after {
+            right: -2.5rem !important;
+            top: 2.0rem !important;
+            transform: none !important;
+            z-index: 99 !important;
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        /* Application: Person-to-Person badge 위치 */
+        /* Application : Person-to-Person 섹션만 -1.7rem */
+        .application-compare .compare-badge {
+            top: -1.7rem !important;
+        }
+        /* Performance Gains over Baseline 섹션만 0.2rem */
+        .perf-compare .compare-badge {
+            top: 0.2rem !important;
+            z-index: 30 !important;
+        }
+
         /* Performance Gains (VITON-HD & DressCode): contain fit, no forced aspect ratio */
         .apps-grid-wrapper:nth-of-type(1) .compare,
         .apps-grid-wrapper:nth-of-type(2) .compare {
@@ -207,55 +241,25 @@
         .app-input-person {
             background: transparent !important;
             border: none !important;
-            width: auto !important;
-            height: auto !important;
-            max-width: 120px !important;
-            max-height: 120px !important;
-            flex: 0 0 auto !important;
-            display: inline-flex !important;
+            width: 100% !important;
+            height: 110vh !important;
+            max-width: 100% !important;
+            max-height: 110vh !important;
+            flex: 0 0 110vh !important;
+            display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             border-radius: 0 !important;
             overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: hidden;
         }
-        /* Thumbnails: show full image without cropping (contain) */
-        .apps-grid-wrapper .app-garment img,
-        .apps-grid-wrapper .app-input-person img,
-        .apps-grid .app-garment img,
-        .apps-grid .app-input-person img,
-        .app-garment img,
-        .app-input-person img {
-            width: auto !important;
-            height: auto !important;
-            max-width: 100% !important;
-            max-height: 100% !important;
-            object-fit: contain !important;
-            object-position: center !important;
-            display: block;
-        }
-
-        /* Results thumbnails: ensure inline width/height 100% are overridden */
-        .results-grid .app-garment,
-        .results-grid .app-input-person {
-            width: auto !important;
-            height: auto !important;
-            max-width: 120px !important;
-            max-height: 120px !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-        }
-        .results-grid .app-garment img,
-        .results-grid .app-input-person img {
-            width: auto !important;
-            height: auto !important;
-            max-width: 100% !important;
-            max-height: 100% !important;
-            object-fit: contain !important;
-            object-position: center !important;
-            display: block !important;
-        }
-        .application-compare .compare-before,
+                .application-compare {
+                    height: 18.6vh !important;
+                    max-height: 18.6vh !important;
+                    margin-top: 4vh !important;
+                    overflow: visible !important;
+                }
         .application-compare .compare-after {
             width: 100%;
             height: 100%;
@@ -631,35 +635,37 @@
         .compare-badge{
             font-size: var(--badge-font-size, 0.64rem);
             font-weight: 800;
-            padding: 1px 6px;
-            background: var(--badge-bg, rgba(255,255,255,0.92));
-            border-radius: 0;
+            padding: 4px 12px;
+            background: #fff;
+            border-radius: 8px;
             border: none;
             color: #222;
             margin: 0;
             display: inline-block;
             text-align: center;
             pointer-events: none;
-            z-index: 10;
+            z-index: 20;
             letter-spacing: 0.01em;
             position: absolute;
-            top: var(--badge-top, -20px);
+            /* top: var(--badge-top, -48px); 기존 -20px에서 더 위로 → 주석처리 */
             white-space: nowrap;
             font-family: var(--badge-font, 'Space Grotesk', 'Inter', sans-serif);
+            opacity: 1;
+            /* box-shadow 제거 */
         }
         
         /* Default badge position */
         .compare {
-        --badge-top: -22px;
+        --badge-top: -38px;
         --badge-font: 'Space Grotesk', 'Inter', sans-serif;
         --badge-before-color: #666;
         --badge-after-color: #F57799;
         --badge-bg: rgba(255,255,255,0.92);
-        }
+            }
 
         /* Results section badge position */
         .results-grid:nth-of-type(2) .compare {
-        --badge-top: -20px;
+            --badge-top: -60px;
         --badge-font-size: 0.65rem;
         }
 
@@ -705,14 +711,14 @@
         .compare-badge.before {
             left: -30px;
             right: 84px;
-            top: 40px;
+            top: var(--badge-top, 40px);
             color: var(--badge-before-color, #666);
         }
         
         .compare-badge.after {
             right:-40px;
             left: 87px;
-            top: 40px;
+            top: var(--badge-top, 40px);
             color: var(--badge-after-color, #F57799);
         }
 
@@ -735,7 +741,7 @@
         }
 
         /* Application section - badge alignment */
-        .application-compare .compare-badge { top: 40px; }
+        /* 중복 top 제거 및 위에서 일괄 적용 */
         /* For reversed compares (result on right): match Result 1 spacing */
         .application-compare.reverse {
             --badge-gap: 35px;
@@ -1047,10 +1053,9 @@
 
     <div class="container">
         <div class="main-content">
-            <!-- HDTF Results -->
             <div class="section">
                 <h2 class="section-title">Performance Gains over Baseline</h2>
-                <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 0 30px 0; color: #555;">
+               <p class="narrow-left" style="text-align: left; max-width: 880px; margin: 0 auto 30px auto; color: #555; font-size: 1rem;">
                     <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> consistently improves performance over baseline, preserving global garment shape while recovering fine local details. <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> is model-agnostic and plugs into DiT architectures with a person→garment attention map, where the <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> loss directly supervises correspondence.
                 </p>
 
@@ -1062,7 +1067,7 @@
                         <button class="result-tab-btn" data-tab="perf-3">Result 3</button>
                     </div>
                 </div>
-                <p style="font-size: 0.75rem; color: #aaa; margin: 0 0 10px 60px;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
+                <p style="font-size: 1rem; color: #aaa; margin: 0 -60px 10px 60px;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
 
                 <!-- Perf Set 1 (active) -->
                 <div class="result-set active" id="perf-1" data-group="perf">
@@ -1322,12 +1327,10 @@
                     </div>
 
                     <div class="compare sample7 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
-                        <img class="compare-before" src="./image/baseline_comp/11632_00_baseline.png" alt="Try-on result">
-                        <img class="compare-after" src="./image/baseline_comp/11632_00_ours.png" alt="Input model">
-
+                        <img class="compare-before" src="./image/baseline_comp/11632_00_baseline.png" alt="Input model">
+                        <img class="compare-after" src="./image/baseline_comp/11632_00_ours.png" alt="Try-on result">
                         <div class="compare-badge before">⬅ w/o CORAL</div>
                         <div class="compare-badge after">w/ CORAL ⮕</div>
-
                         <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Image comparison slider">
                         <div class="compare-handle" aria-hidden="true"><span>↔</span></div>
                     </div>
@@ -1458,7 +1461,7 @@
                         <div class="app-input-person">
                         <img src="./image/baseline_comp/051353_0.jpg" alt="Input Person 05">
                         </div>
-                        <div class="app-image-label">Person</div>
+                        <div class="app-image-label">Input Person</div>
                         </div>
                         </div>
                         <div class="app-meta">
@@ -1707,26 +1710,26 @@
 
                     <!-- 카드 6 -->
                     <div class="app-card">
-                        <div class="app-top">
-                            <div class="app-images">
-                            <div class="app-image-wrapper">
-                            <div class="app-garment">
-                            <img src="./image/baseline_comp/dress_dc_2_cloth.png" alt="Garment 03">
-                            </div>
-                            <div class="app-image-label">Dress Garment</div>
-                            </div>
-                            <div class="app-image-wrapper">
-                            <div class="app-input-person">
-                            <img src="./image/baseline_comp/dress_dc.png" alt="Input Person 03">
-                            </div>
-                            <div class="app-image-label">Person</div>
-                            </div>
-                            </div>
-                            <div class="app-meta">
-                            <div class="app-title">Try-on Example 03</div>
-                            <div class="app-desc">Move your mouse to reveal the result</div>
-                            </div>
+                    <div class="app-top">
+                        <div class="app-images">
+                        <div class="app-image-wrapper">
+                        <div class="app-garment">
+                        <img src="./image/baseline_comp/dress_dc_2_cloth.png" alt="Garment 03">
                         </div>
+                        <div class="app-image-label">Dress Garment</div>
+                        </div>
+                        <div class="app-image-wrapper">
+                        <div class="app-input-person">
+                        <img src="./image/baseline_comp/dress_dc.png" alt="Input Person 03">
+                        </div>
+                        <div class="app-image-label">Person</div>
+                        </div>
+                        </div>
+                        <div class="app-meta">
+                        <div class="app-title">Try-on Example 03</div>
+                        <div class="app-desc">Move your mouse to reveal the result</div>
+                        </div>
+                    </div>
 
                         <div class="compare sample3" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                             <img class="compare-before" src="./image/baseline_comp/dress_dc_2_baseline.png" alt="Input model">
@@ -1763,7 +1766,7 @@
                         <button class="result-tab-btn" data-tab="result-3">Result 3</button>
                     </div>
                 </div>
-                <p style="font-size: 0.75rem; color: #aaa; margin: 0 0 15px 60px;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
+                <p style="font-size: 1rem; color: #aaa; margin: 0 -60px 10px 60px;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
 
                 <!-- Result Set 1 -->
                 <div class="result-set active" id="result-1">
@@ -1795,7 +1798,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample1 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-app-scale-after="1.021" data-app-shift-y="-5.5" style="margin-top:30px;">
+                    <div class="compare sample1 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-app-scale-after="1.021" data-app-shift-y="-5.5" style="margin-top:0px;">
                         <img class="compare-before" src="./image/app/529_1.png" alt="Input model">
                         <img class="compare-after" src="./image/app/529_1_1192_1.png" alt="Try-on result">
 
@@ -1907,7 +1910,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample4 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample4 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/361_2.png" alt="Input model">
                         <img class="compare-after" src="./image/app/361_2_717_0.png" alt="Try-on result">
 
@@ -1942,7 +1945,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample5 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample5 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/1454_0.png" alt="Input model">
                         <img class="compare-after" src="./image/app/1454_0_1434_0.png" alt="Try-on result">
 
@@ -1977,7 +1980,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample6 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample6 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/200_2.png" alt="Input model">
                         <img class="compare-after" src="./image/app/200_2_184_3.png" alt="Try-on result">
 
@@ -2023,16 +2026,16 @@
                     </div>
 
                     <div class="compare sample7 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
-                        <img class="compare-before" src="./image/app/988_0.png" alt="Try-on result">
-                        <img class="compare-after" src="./image/app/988_0_1008_4.png" alt="Input model">
+			<img class="compare-before" src="./image/app/988_0.png" alt="Try-on result">
+			<img class="compare-after" src="./image/app/988_0_1008_4.png" alt="Input model">
 
-                        <div class="compare-badge before">⬅ input person</div>
-                        <div class="compare-badge after">result ⮕</div>
+			<div class="compare-badge before">⬅ input person</div>
+			<div class="compare-badge after">result ⮕</div>
 
-                        <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Image comparison slider">
-                        <div class="compare-handle" aria-hidden="true"><span>↔</span></div>
-                    </div>
-                    </div>
+			<input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Image comparison slider">
+			<div class="compare-handle" aria-hidden="true"><span>↔</span></div>
+		</div>
+	</div>
 
                         <!-- 카드 2 -->
                         <div class="app-card">
@@ -2446,23 +2449,23 @@
                 </div>
                 </div>
 
-            <!-- Spacer placed well below the Application cards -->
-            <div class="section-spacer"></div>
+                <!-- Spacer placed well below the Application cards -->
+                <div class="section-spacer"></div>
 
             </div>
             <div class="section">
                 <h2 class="section-title">Abstract
                 </h2>
                 
-                <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555;">
-                    Existing methods for Virtual Try-On (VTON) often struggle to preserve fine garment details, especially in unpaired settings where accurate person→garment correspondence is required. These methods do not explicitly enforce person→garment alignment and fail to explain how correspondence emerges within Diffusion Transformers (DiTs). In this paper, we first analyze full 3D attention in DiTs-based architecture and reveal that person→garment correspondence critically depends on precise person→garment query-key matching within the full 3D attention. Building on this insight, we introduce <span style="font-weight: 800; letter-spacing: 0.02em;">COR</span>respondence <span style="font-weight: 800; letter-spacing: 0.02em;">AL</span>ignment (<span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span>), a DiT based framework that explicitly aligns query-key matching with robust external correspondences. CORAL integrates two complementary components: a correspondence distillation loss that aligns reliable matches with person→garment attention, and an entropy minimization loss that sharpens the attention distribution. We further propose a VLM-based evaluation protocol to better reflect human preference. <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> consistently improves over the baseline, enhancing both global shape transfer and local detail preservation. Extensive ablations validate our design choices.
+                <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555; font-size: 1rem;">
+                    Existing methods for Virtual Try-On (VTON) often struggle to preserve fine garment details, especially in unpaired settings where accurate person→garment correspondence is required. These methods do not explicitly enforce person→garment alignment and fail to explain how correspondence emerges within Diffusion Transformers (DiTs). In this paper, we first analyze full 3D attention in DiT-based architecture and reveal that person→garment correspondence critically depends on precise person→garment query-key matching within the full 3D attention. Building on this insight, we introduce <span style="font-weight: 800; letter-spacing: 0.02em;">COR</span>respondence <span style="font-weight: 800; letter-spacing: 0.02em;">AL</span>ignment (<span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span>), a DiT based framework that explicitly aligns query-key matching with robust external correspondences. CORAL integrates two complementary components: a correspondence distillation loss that aligns reliable matches with person→garment attention, and an entropy minimization loss that sharpens the attention distribution. We further propose a VLM-based evaluation protocol to better reflect human preference. <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> consistently improves over the baseline, enhancing both global shape transfer and local detail preservation. Extensive ablations validate our design choices.
                 </p>
             </div>
 
             <!-- Motivation -->
             <div class="section">
                 <h2 class="section-title">Motivation</h2>
-                <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555; line-height: 1.8;">
+                <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555; line-height: 1.8; font-size: 1rem;">
                     We compare attention derived correspondences with pseudo ground-truth from DINOv3 and find that query-key matching accuracy relates to try-on quality. High-quality outputs show sharp, well-localized person to garment attention, and low-quality outputs show dispersed or misplaced attention. Across 540 VITON-HD test pairs, higher PCK relates to higher SSIM and lower LPIPS, motivating direct supervision of attention toward stronger correspondence. <span style="color: magenta; font-weight: 600;">Pink</span> markers denote the attention query points.
                 </p>
                 <img src="./image/motivation.png" alt="Motivation" class="method-image" style="max-width: 900px; margin: 0 auto; display: block;">
@@ -2473,7 +2476,7 @@
                 <h2 class="section-title">Method Overview</h2>
                 <img src="./image/main_architecture.png" alt="Method Overview" class="method-image">
                 <div class="method-text">
-                    <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555; line-height: 1.8;"> <span class="coral-word">CORAL</span> operates on a baseline architecture that constructs the noisy latent by horizontally concatenating the noisy garment and person latents, and then channel-wise concatenates the conditioning canvas and mask canvas with the noisy latent before the input projection layer. Pose is injected by adding pose latents as tokens, with RoPE set to share spatial positions between person and pose tokens. <span class="coral-word">CORAL</span> is applied to the person→garment matching cost estimated from MM-Attention within DiT blocks using two complementary loss terms: the <span class="loss-distill">correspondence distillation loss</span> aligns the matching to pseudo ground-truth correspondences, while the <span class="loss-entropy">entropy loss</span> encourages sharper, more localized matches. </p>
+                    <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555; line-height: 1.8; font-size: 1rem;"> <span class="coral-word">CORAL</span> operates on a baseline architecture that constructs the noisy latent by horizontally concatenating the noisy garment and person latents, and then channel-wise concatenates the conditioning canvas and mask canvas with the noisy latent before the input projection layer. Pose is injected by adding pose latents as tokens, with RoPE set to share spatial positions between person and pose tokens. <span class="coral-word">CORAL</span> is applied to the person→garment matching cost estimated from MM-Attention within DiT blocks using two complementary loss terms: the <span class="loss-distill">correspondence distillation loss</span> aligns the matching to pseudo ground-truth correspondences, while the <span class="loss-entropy">entropy loss</span> encourages sharper, more localized matches. </p>
                 </div>
             </div>
 
@@ -2481,7 +2484,7 @@
             <div class="section" id="results-section">
                 <h2 class="section-title">Results</h2>
                 <h2 class="section-title-small" style="margin-bottom:35px; color : #888; font-weight:100; font-size:1.55rem;">Qualitative Results</h2>
-                <p style="font-size: 0.75rem; color: #aaa; margin: 0 0 50px 60px; text-align: left;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
+                <p style="font-size: 1rem; color: #aaa; margin: 0 0 50px 0px; text-align: left;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
 
                 <!-- Method Labels (top) -->
                 <div class="results-grid" style="margin-top: -30px; margin-bottom: 25px;">
@@ -2656,7 +2659,7 @@
                         </div>
                     </div>
                     <div class="results-item">
-                        <div class="compare" data-auto="true" data-speed="22" data-min="5" data-max="95" style="width: 100%; aspect-ratio: 1; border-radius: 0; overflow: hidden;">
+                        <div class="compare" data-auto="true" data-speed="22" data-min="5" data-max="95" style="width: 100%; border-radius: 0; overflow: hidden;">
                             <img class="compare-before" src="./image/quan_comp/dc_quan_person.png" alt="Result 10" style="width: 100%; height: 100%; object-fit: contain;">
                             <img class="compare-after" src="./image/quan_comp/dc_quan_ours.png" alt="Result 10" style="width: 100%; height: 100%; object-fit: contain;">
                             <div class="compare-badge before">result ⮕</div>
@@ -2896,7 +2899,7 @@
                                     <td>-</td>
                                     <td>-</td>
                                     <td>5.573</td>
-                                    <td>1.458</td>
+                                    <td><strong>0.106</strong></td>
                                 </tr>
                                 <tr class="row-sep-top">
                                     <td><strong>CORAL (w/o L<sub>CORAL</sub>)</strong></td>
@@ -3062,7 +3065,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div style="font-size:0.85rem; color:#888; margin-top:8px; margin-bottom:18px;">
+                    <div style="font-size:0.85rem; color:#888; margin-top:8px; margin-bottom:18px; text-align:left;">
                         For more information about VLM-based evaluation metrics, please refer to the paper.
                     </div>
                 </div>
@@ -3082,15 +3085,6 @@
                 <p class="narrow-left" style="text-align: left; max-width: 900px; margin: 0 auto 30px auto; color: #555;">
                     We analyze how person–garment correspondence is established within DiT-based VTON and show that RGB-space alignment depends on accurate query–key correspondence. We introduce <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span>, a framework that aligns person–garment query–key matches with robust DINOv3 correspondences through a correspondence distillation loss and an entropy minimization loss to sharpen attention. <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> achieves state-of-the-art performance across all standard benchmarks as well as an in-the-wild benchmark. Extensive analyses and ablation studies further demonstrate the effectiveness of our design choices.
                 </p>
-            </div>
-
-
-
-            <div class="section">
-                <h2 class="section-title">User Study</h2>
-                <div style="max-width: 700px; margin: 0 auto 30px auto; text-align: center;">
-                    <img src="./image/human_eval.png" alt="User Study Results" style="width:100%; max-width:600px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); background: #fff; margin-bottom: 18px;" />
-                </div>
             </div>
 
             <div class="section" style="border-bottom: none;">
@@ -3379,7 +3373,7 @@
         // 안내 메시지 생성
         const tooltip = document.createElement('div');
         tooltip.className = 'magnifier-tooltip';
-        tooltip.innerHTML = '클릭하면 돋보기 모드';
+            tooltip.innerHTML = 'Click to enable zoom mode';
         tooltip.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:9998;transition:opacity 0.3s;pointer-events:none;';
         document.body.appendChild(tooltip);
         setTimeout(() => { tooltip.style.opacity = '0'; }, 3000);

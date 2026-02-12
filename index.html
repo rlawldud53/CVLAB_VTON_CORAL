@@ -433,6 +433,34 @@
             z-index:2;
             }
 
+        /* Magnifier (돋보기) 효과 */
+        .magnifier {
+            position: fixed;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid rgba(245, 119, 153, 0.8);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.3);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            background-repeat: no-repeat;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        .magnifier.active {
+            opacity: 1;
+        }
+        .magnifier::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
         /* vertical divider line spans full compare height */
         .compare::before{
         content:"";
@@ -3227,6 +3255,99 @@
     // Run after load (images sized) and on resize
     window.addEventListener('load', () => { initTabDisplays(); equalizeGridHeights(); });
     window.addEventListener('resize', equalizeGridHeights);
+
+    // ===== Magnifier (돋보기) 기능 =====
+    (function(){
+        // 돋보기 엘리먼트 생성
+        const magnifier = document.createElement('div');
+        magnifier.className = 'magnifier';
+        document.body.appendChild(magnifier);
+
+        const ZOOM = 2.5; // 확대 배율
+        const SIZE = 180; // 돋보기 크기 (px)
+        let currentImg = null;
+
+        function showMagnifier(img, e) {
+            if (!img || !img.src) return;
+
+            const rect = img.getBoundingClientRect();
+            
+            // 마우스 위치 (이미지 기준 비율)
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const percX = x / rect.width;
+            const percY = y / rect.height;
+
+            // 이미지 원본 크기 기준 확대 배경 설정
+            const bgWidth = rect.width * ZOOM;
+            const bgHeight = rect.height * ZOOM;
+
+            // 배경 위치 계산 (돋보기 중심에 해당 부분이 오도록)
+            const bgX = -(percX * bgWidth - SIZE / 2);
+            const bgY = -(percY * bgHeight - SIZE / 2);
+
+            magnifier.style.backgroundImage = `url('${img.src}')`;
+            magnifier.style.backgroundSize = `${bgWidth}px ${bgHeight}px`;
+            magnifier.style.backgroundPosition = `${bgX}px ${bgY}px`;
+
+            // 돋보기 위치 (마우스 옆에 표시)
+            const magX = e.clientX + 20;
+            const magY = e.clientY - SIZE / 2;
+
+            // 화면 밖으로 나가지 않도록 조정
+            const maxX = window.innerWidth - SIZE - 10;
+            const maxY = window.innerHeight - SIZE - 10;
+            magnifier.style.left = Math.min(Math.max(10, magX), maxX) + 'px';
+            magnifier.style.top = Math.min(Math.max(10, magY), maxY) + 'px';
+
+            magnifier.classList.add('active');
+            currentImg = img;
+        }
+
+        function hideMagnifier() {
+            magnifier.classList.remove('active');
+            currentImg = null;
+        }
+
+        // compare-after 이미지에 마우스 이벤트 바인딩
+        document.addEventListener('mousemove', (e) => {
+            const afterImg = e.target.closest('.compare-after');
+            if (afterImg) {
+                showMagnifier(afterImg, e);
+            } else if (currentImg) {
+                hideMagnifier();
+            }
+        });
+
+        document.addEventListener('mouseleave', hideMagnifier);
+
+        // 터치 디바이스: 길게 누르면 돋보기 표시
+        let touchTimer = null;
+        document.addEventListener('touchstart', (e) => {
+            const afterImg = e.target.closest('.compare-after');
+            if (afterImg && e.touches[0]) {
+                touchTimer = setTimeout(() => {
+                    showMagnifier(afterImg, { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
+                }, 300);
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (currentImg && e.touches[0]) {
+                const afterImg = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+                if (afterImg && afterImg.classList.contains('compare-after')) {
+                    showMagnifier(afterImg, { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
+                } else {
+                    hideMagnifier();
+                }
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', () => {
+            if (touchTimer) clearTimeout(touchTimer);
+            hideMagnifier();
+        });
+    })();
     </script>
 
 </body>

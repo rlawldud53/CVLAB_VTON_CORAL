@@ -3345,20 +3345,24 @@
             if (window.toggleMagnifierMode) window.toggleMagnifierMode(false);
         }
 
-        // 클릭으로 돋보기 모드 활성화/비활성화
+        // 클릭으로 돋보기 모드 활성화/비활성화 (아무 곳이나 클릭)
         document.addEventListener('click', (e) => {
             const img = e.target.closest('.compare-after, .app-garment img');
             
             if (isActive) {
                 // 돋보기 모드 비활성화
                 deactivate();
-            } else if (img) {
-                // 돋보기 모드 활성화
+            } else {
+                // 아무 곳이나 클릭하면 돋보기 모드 활성화
                 isActive = true;
-                currentTarget = img;
                 document.body.style.cursor = 'zoom-out';
                 if (window.toggleMagnifierMode) window.toggleMagnifierMode(true);
-                updateMagnifier(img, e.clientX, e.clientY);
+                
+                // 이미지 위에서 클릭했으면 바로 돋보기 표시
+                if (img) {
+                    currentTarget = img;
+                    updateMagnifier(img, e.clientX, e.clientY);
+                }
             }
         });
 

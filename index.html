@@ -1053,6 +1053,7 @@
                 <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555;">
                     <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> consistently improves performance over baseline, preserving global garment shape while recovering fine local details. <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> is model-agnostic and plugs into DiT architectures with a person→garment attention map, where the <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> loss directly supervises correspondence.
                 </p>
+                <p style="text-align: center; font-size: 0.75rem; color: #aaa; margin-bottom: 15px;">👆 Click anywhere to pause slider and enable magnifier mode</p>
 
                 <!-- Performance Result Tabs -->
                 <div class="result-tabs-container">
@@ -1753,6 +1754,7 @@
                 <p class="narrow-left" style="text-align: left; max-width: 880px; margin: 0 auto 30px auto; color: #555;">
                     We evaluate <span style="font-weight: 800; letter-spacing: 0.02em;">CORAL</span> under more challenging, less curated inputs using paired and unpaired sets built from PPR10K. <span style="font-weight: 800; letter-spacing: 0.02em;">Person</span>: in-the-wild full-body photos with broad variation in pose, viewpoint, background, framing, and occlusions. <span style="font-weight: 800; letter-spacing: 0.02em;">Garment</span>: worn-garment images observed on another clothed person, which we refer to as person-to-person garment transfer, where it is harder to determine what should be transferred from the reference.
                 </p>
+                <p style="text-align: center; font-size: 0.75rem; color: #aaa; margin-bottom: 15px;">👆 Click anywhere to pause slider and enable magnifier mode</p>
 
                 <!-- Result Set Tabs -->
                 <div class="result-tabs-container">
@@ -2461,7 +2463,7 @@
             <div class="section">
                 <h2 class="section-title">Motivation</h2>
                 <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555; line-height: 1.8;">
-                    We compare attention derived correspondences with pseudo ground truth from DINOv3 and find that query key matching accuracy relates to try on quality. High-quality outputs show sharp, well-localized person to garment attention, and low-quality outputs show dispersed or misplaced attention. Across 540 VITON-HD test pairs, higher PCK relates to higher SSIM and lower LPIPS, which motivates direct supervision that steers attention toward stronger correspondence. <span style="color: magenta; font-weight: 600;">Pink</span> markers denote the attention query points.
+                    We compare attention derived correspondences with pseudo ground-truth from DINOv3 and find that query-key matching accuracy relates to try-on quality. High-quality outputs show sharp, well-localized person to garment attention, and low-quality outputs show dispersed or misplaced attention. Across 540 VITON-HD test pairs, higher PCK relates to higher SSIM and lower LPIPS, motivating direct supervision of attention toward stronger correspondence. <span style="color: magenta; font-weight: 600;">Pink</span> markers denote the attention query points.
                 </p>
                 <img src="./image/motivation.png" alt="Motivation" class="method-image" style="max-width: 900px; margin: 0 auto; display: block;">
             </div>
@@ -2479,6 +2481,7 @@
             <div class="section" id="results-section">
                 <h2 class="section-title">Results</h2>
                 <h2 class="section-title-small" style="margin-bottom:35px; color : #888; font-weight:100; font-size:1.55rem;">Qualitative Results</h2>
+                <p style="text-align: center; font-size: 0.75rem; color: #aaa; margin-bottom: 15px;">👆 Click anywhere to pause slider and enable magnifier mode</p>
 
                 <!-- Method Labels (top) -->
                 <div class="results-grid" style="margin-top: -30px; margin-bottom: 25px;">

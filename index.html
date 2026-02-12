@@ -2467,7 +2467,7 @@
             </div>
 
             <!-- Results -->
-            <div class="section">
+            <div class="section" id="results-section">
                 <h2 class="section-title">Results</h2>
                 <h2 class="section-title-small" style="margin-bottom:35px; color : #888; font-weight:100; font-size:1.55rem;">Qualitative Results</h2>
 
@@ -3104,7 +3104,7 @@
         }
 
         // Results 섹션 여부 확인
-        const isInResults = !!el.closest('#results');
+        const isInResults = !!el.closest('#results-section');
 
         // limit follow to pointer movement inside this compare element
         el.addEventListener('mousemove', (e) => {
@@ -3157,13 +3157,13 @@
         setupCompare(el);
     });
 
-    // Global mouse/touch movement: move sliders EXCEPT those in #results section
+    // Global mouse/touch movement: move sliders EXCEPT those in #results-section
     const applyGlobalX = (clientX) => {
         const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         const globalPercent = (clientX / vw) * 100;
         compares.forEach(c => {
             // Results 섹션 내부의 슬라이더는 전역 제어에서 제외 (개별 바인딩)
-            if (c.el.closest('#results')) return;
+            if (c.el.closest('#results-section')) return;
             c.pause();
             const clamped = clamp(globalPercent, c.min, c.max);
             c.setPos(clamped);

@@ -2457,6 +2457,14 @@
                 </p>
             </div>
 
+            <!-- Motivation -->
+            <div class="section">
+                <h2 class="section-title">Motivation</h2>
+                <p class="narrow-left" style="text-align: left; max-width: 800px; margin: 0 auto 30px auto; color: #555; line-height: 1.8;">
+                    <!-- Motivation 내용을 여기에 추가하세요 -->
+                </p>
+            </div>
+
             <!-- Method Overview -->
             <div class="section">
                 <h2 class="section-title">Method Overview</h2>
@@ -3103,13 +3111,8 @@
         raf = requestAnimationFrame(tick);
         }
 
-        // Results 섹션 여부 확인
-        const isInResults = !!el.closest('#results-section');
-
         // limit follow to pointer movement inside this compare element
         el.addEventListener('mousemove', (e) => {
-            // Results 섹션이면 이벤트 전파 중단 (독립 동작)
-            if (isInResults) e.stopPropagation();
             pause();
             const rect = el.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -3119,14 +3122,13 @@
         });
         el.addEventListener('touchmove', (e) => {
             if (!e.touches || !e.touches[0]) return;
-            if (isInResults) e.stopPropagation();
             pause();
             const rect = el.getBoundingClientRect();
             const x = e.touches[0].clientX - rect.left;
             const percent = (x / rect.width) * 100;
             const clamped = clamp(percent, min, max);
             setPos(clamped);
-        }, { passive: false });
+        }, { passive: true });
 
         // start animation
         start();
@@ -3157,13 +3159,14 @@
         setupCompare(el);
     });
 
-    // Global mouse/touch movement: move sliders EXCEPT those in #results-section
+    // Global mouse/touch movement: move all sliders based on viewport X
+    let magnifierMode = false; // 돋보기 모드 플래그
+
     const applyGlobalX = (clientX) => {
+        if (magnifierMode) return; // 돋보기 모드일 때는 슬라이더 움직이지 않음
         const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         const globalPercent = (clientX / vw) * 100;
         compares.forEach(c => {
-            // Results 섹션 내부의 슬라이더는 전역 제어에서 제외 (개별 바인딩)
-            if (c.el.closest('#results-section')) return;
             c.pause();
             const clamped = clamp(globalPercent, c.min, c.max);
             c.setPos(clamped);
@@ -3178,6 +3181,11 @@
         if (!e.touches || !e.touches[0]) return;
         applyGlobalX(e.touches[0].clientX);
     }, { passive: true });
+
+    // 클릭하면 돋보기 모드 토글
+    window.toggleMagnifierMode = (enable) => {
+        magnifierMode = enable;
+    };
     })();
 
     // Initialize tab sets display states on load to avoid cascade conflicts
@@ -3274,15 +3282,24 @@
         magnifier.className = 'magnifier';
         document.body.appendChild(magnifier);
 
-        const ZOOM = 3; // 확대 배율
-        const SIZE = 150; // 돋보기 크기 (px)
-        let activeImg = null;
+        // 안내 메시지 생성
+        const tooltip = document.createElement('div');
+        tooltip.className = 'magnifier-tooltip';
+        tooltip.innerHTML = '클릭하면 돋보기 모드';
+        tooltip.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:9998;transition:opacity 0.3s;pointer-events:none;';
+        document.body.appendChild(tooltip);
+        setTimeout(() => { tooltip.style.opacity = '0'; }, 3000);
+
+        const ZOOM = 3;
+        const SIZE = 150;
+        let isActive = false; // 돋보기 모드 활성화 여부
+        let currentTarget = null;
         let rafId = null;
 
         function updateMagnifier(img, clientX, clientY) {
-            const rect = img.getBoundingClientRect();
+            if (!isActive || !img) return;
             
-            // 마우스 위치 (이미지 기준 비율)
+            const rect = img.getBoundingClientRect();
             const x = clientX - rect.left;
             const y = clientY - rect.top;
             
@@ -3295,17 +3312,14 @@
             const percX = x / rect.width;
             const percY = y / rect.height;
 
-            // 확대 배경 설정
             const bgWidth = rect.width * ZOOM;
             const bgHeight = rect.height * ZOOM;
             const bgX = -(percX * bgWidth - SIZE / 2);
             const bgY = -(percY * bgHeight - SIZE / 2);
 
-            // 돋보기 위치 (마우스 커서 바로 위에)
             let magX = clientX - SIZE / 2;
             let magY = clientY - SIZE - 15;
 
-            // 화면 경계 처리
             if (magY < 10) magY = clientY + 20;
             if (magX < 10) magX = 10;
             if (magX + SIZE > window.innerWidth - 10) magX = window.innerWidth - SIZE - 10;
@@ -3320,50 +3334,60 @@
 
         function hideMagnifier() {
             magnifier.classList.remove('active');
-            activeImg = null;
             if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
         }
 
-        // 각 compare-after 이미지에 직접 이벤트 바인딩
-        function bindMagnifier(img) {
-            img.addEventListener('mouseenter', function(e) {
-                activeImg = img;
-                updateMagnifier(img, e.clientX, e.clientY);
-            });
-            
-            img.addEventListener('mousemove', function(e) {
-                if (rafId) return;
-                rafId = requestAnimationFrame(() => {
-                    updateMagnifier(img, e.clientX, e.clientY);
-                    rafId = null;
-                });
-            });
-            
-            img.addEventListener('mouseleave', hideMagnifier);
+        function deactivate() {
+            isActive = false;
+            currentTarget = null;
+            hideMagnifier();
+            document.body.style.cursor = '';
+            if (window.toggleMagnifierMode) window.toggleMagnifierMode(false);
         }
 
-        // compare-after 및 garment 이미지에 바인딩
-        document.querySelectorAll('.compare-after').forEach(bindMagnifier);
-        document.querySelectorAll('.app-garment img').forEach(bindMagnifier);
-
-        // 동적으로 추가되는 이미지를 위한 MutationObserver
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === 1) {
-                        if (node.classList && node.classList.contains('compare-after')) {
-                            bindMagnifier(node);
-                        }
-                        if (node.closest && node.closest('.app-garment') && node.tagName === 'IMG') {
-                            bindMagnifier(node);
-                        }
-                        node.querySelectorAll && node.querySelectorAll('.compare-after').forEach(bindMagnifier);
-                        node.querySelectorAll && node.querySelectorAll('.app-garment img').forEach(bindMagnifier);
-                    }
-                });
-            });
+        // 클릭으로 돋보기 모드 활성화/비활성화
+        document.addEventListener('click', (e) => {
+            const img = e.target.closest('.compare-after, .app-garment img');
+            
+            if (isActive) {
+                // 돋보기 모드 비활성화
+                deactivate();
+            } else if (img) {
+                // 돋보기 모드 활성화
+                isActive = true;
+                currentTarget = img;
+                document.body.style.cursor = 'zoom-out';
+                if (window.toggleMagnifierMode) window.toggleMagnifierMode(true);
+                updateMagnifier(img, e.clientX, e.clientY);
+            }
         });
-        observer.observe(document.body, { childList: true, subtree: true });
+
+        // 돋보기 모드일 때 마우스 이동으로 돋보기 업데이트
+        document.addEventListener('mousemove', (e) => {
+            if (!isActive) return;
+            
+            const img = e.target.closest('.compare-after, .app-garment img');
+            if (img) {
+                currentTarget = img;
+            }
+            
+            if (currentTarget) {
+                if (rafId) return;
+                rafId = requestAnimationFrame(() => {
+                    updateMagnifier(currentTarget, e.clientX, e.clientY);
+                    rafId = null;
+                });
+            } else {
+                hideMagnifier();
+            }
+        });
+
+        // ESC 키로 돋보기 모드 해제
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isActive) {
+                deactivate();
+            }
+        });
     })();
     </script>
 

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -159,26 +157,179 @@
             /* 개별 before/after에 직접 지정 */
         }
         .result-set[data-group="perf"] .compare-badge.before {
-            left: -2.5rem !important;
+            left: 2.0rem !important;
+            right: auto !important;
             top: 2.0rem !important;
             transform: none !important;
-            z-index: 99 !important;
+            z-index: 9999 !important;
             display: block !important;
             opacity: 1 !important;
         }
         .result-set[data-group="perf"] .compare-badge.after {
-            right: -2.5rem !important;
+            right: 0.1rem !important; /* keep badge inside card */
             top: 2.0rem !important;
             transform: none !important;
+            z-index: 999 !important;
+            display: block !important;
+            opacity: 1 !important;
+            /* Keep background subtle and reduce padding so it doesn't protrude */
+            background: rgba(255,255,255,0.92) !important;
+            padding: 2px 6px !important;
+            border-radius: 6px !important;
+            box-shadow: none !important;
+        }
+
+        /* Remove forced 18px side margins inside Performance compare images to avoid extra whitespace */
+        .result-set[data-group="perf"] .compare-before,
+        .result-set[data-group="perf"] .compare-after {
+            margin: 0 !important;
+        }
+
+        /* Ensure perf compares/ancestors don't clip badges */
+        .result-set[data-group="perf"] .compare,
+        .result-set[data-group="perf"] .app-card,
+        .result-set[data-group="perf"] .apps-grid-wrapper {
+            overflow: visible !important;
+        }
+
+        /* Application: Person-to-Person badge 위치
+           - before/after을 분리해서 둘 다 왼쪽으로 쏠리는 문제 해결
+           - person-to-person 섹션은 뱃지를 좀 더 아래로 내림 (2.0rem) */
+        .application-compare .compare-badge.before {
+            top: 2.0rem !important;
+            left: calc(50% - 18px) !important;
+            right: auto !important;
+            transform: translateX(-50%) !important;
             z-index: 99 !important;
+            display: block !important;
+            opacity: 1 !important;
+            color: #222 !important;
+            background: #fff !important;
+            border-radius: 8px !important;
+            border: none !important;
+            font-size: 0.64rem !important;
+            font-weight: 800 !important;
+            padding: 4px 12px !important;
+            text-align: center !important;
+            pointer-events: none !important;
+            white-space: nowrap !important;
+        }
+        .application-compare .compare-badge.after {
+            top: 2.0rem !important;
+            left: calc(50% + 58px) !important;
+            right: auto !important;
+            transform: translateX(-50%) !important;
+            z-index: 99 !important;
+            display: block !important;
+            opacity: 1 !important;
+            color: #F57799 !important;
+            background: #fff !important;
+            border-radius: 8px !important;
+            border: none !important;
+            font-size: 0.64rem !important;
+            font-weight: 800 !important;
+            padding: 4px 12px !important;
+            text-align: center !important;
+            pointer-events: none !important;
+            white-space: nowrap !important;
+        }
+        /* 강제 오버라이드: Result sets for Application (Person-to-Person) badges */
+        /* 이 섹션들은 compare 요소에 application-compare 클래스가 없으므로 ID 기반으로 강제 적용합니다 */
+        #result-1 .compare-badge.before,
+        #result-2 .compare-badge.before,
+        #result-3 .compare-badge.before {
+            top: 2.0rem !important;
+            left: calc(50% - 28px) !important;
+            right: auto !important;
+            transform: translateX(-50%) !important;
+            z-index: 99 !important;
+            display: block !important;
+            opacity: 1 !important;
+            color: #222 !important;
+            background: #fff !important;
+            border-radius: 8px !important;
+            border: none !important;
+            font-size: 0.64rem !important;
+            font-weight: 800 !important;
+            padding: 4px 12px !important;
+            text-align: center !important;
+            pointer-events: none !important;
+            white-space: nowrap !important;
+        }
+        #result-1 .compare-badge.after,
+        #result-2 .compare-badge.after,
+        #result-3 .compare-badge.after {
+            top: 2.0rem !important;
+            left: calc(50% + 88px) !important;
+            right: auto !important;
+            transform: translateX(-50%) !important;
+            z-index: 99 !important;
+            display: block !important;
+            opacity: 1 !important;
+            color: #F57799 !important;
+            background: #fff !important;
+            border-radius: 8px !important;
+            border: none !important;
+            font-size: 0.64rem !important;
+            font-weight: 800 !important;
+            padding: 4px 12px !important;
+            text-align: center !important;
+            pointer-events: none !important;
+            white-space: nowrap !important;
+        }
+        /* Ensure parent containers don't clip badges */
+        #result-1 .compare,
+        #result-2 .compare,
+        #result-3 .compare,
+        #result-1 .app-card,
+        #result-2 .app-card,
+        #result-3 .app-card,
+        #result-1 .apps-grid-wrapper,
+        #result-2 .apps-grid-wrapper,
+        #result-3 .apps-grid-wrapper {
+            overflow: visible !important;
+        }
+        /* Prevent perf-specific adjustments from affecting non-perf (application) compares
+           Restore application (person-to-person) badge visuals explicitly so perf rules don't leak */
+        .result-set:not([data-group="perf"]) .compare-badge.before,
+        .result-set:not([data-group="perf"]) .compare-badge.after,
+        #result-1 .compare-badge.before,
+        #result-2 .compare-badge.before,
+        #result-3 .compare-badge.before,
+        #result-1 .compare-badge.after,
+        #result-2 .compare-badge.after,
+        #result-3 .compare-badge.after {
+            /* Restore Application-specific badge look (white solid, larger padding, stronger weight) */
+            background: #fff !important;
+            color: inherit !important;
+            padding: 4px 12px !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
             display: block !important;
             opacity: 1 !important;
         }
 
-        /* Application: Person-to-Person badge 위치 */
-        /* Application : Person-to-Person 섹션만 -1.7rem */
-        .application-compare .compare-badge {
-            top: -1.7rem !important;
+        /* Reapply person-to-person precise offsets (stronger specificity than any perf rules) */
+        #result-1 .compare-badge.before,
+        #result-2 .compare-badge.before,
+        #result-3 .compare-badge.before,
+        .application-compare .compare-badge.before {
+            left: calc(50% - 18px) !important;
+            right: auto !important;
+            top: 2.0rem !important;
+            transform: translateX(-50%) !important;
+            z-index: 99 !important;
+        }
+        #result-1 .compare-badge.after,
+        #result-2 .compare-badge.after,
+        #result-3 .compare-badge.after,
+        .application-compare .compare-badge.after {
+            left: calc(50% + 58px) !important;
+            right: auto !important;
+            top: 2.0rem !important;
+            transform: translateX(-50%) !important;
+            z-index: 99 !important;
+            color: #F57799 !important;
         }
         /* Performance Gains over Baseline 섹션만 0.2rem */
         .perf-compare .compare-badge {
@@ -220,6 +371,7 @@
         }
 
         /* Slight upward shift for both images (before/after) within performance compares */
+
         .apps-grid-wrapper:nth-of-type(1) .compare-before,
         .apps-grid-wrapper:nth-of-type(2) .compare-before,
         .apps-grid-wrapper:nth-of-type(1) .compare-after,
@@ -227,13 +379,37 @@
             object-position: center calc(50% + var(--image-shift-y, 10px));
         }
 
+        /* compare 내부 before/after 이미지 사이 간격 넓히기 */
+        .compare {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .compare-before, .compare-after {
+            margin: 0 18px !important;
+        }
+
+        /* Results section: override global image margins so spacing stays as adjusted */
+        .section#results-section .results-grid .compare-before,
+        .section#results-section .results-grid .compare-after {
+            margin: 0 !important;
+        }
+
         /* Application: Person-to-Person section: contain fit, no forced aspect ratio */
         .application-compare {
-            aspect-ratio: initial !important;
-            --fit-mode: cover;
-            /* Defaults for per-card controls */
-            --image-scale-after: 0.905;
-            --image-shift-y: 0px;
+            /* 기존 before/after 이미지에 영향 주는 스타일 제거, 배지 위치만 유지 */
+        }
+        .application-compare .compare-before,
+        .application-compare .compare-after {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain !important;
+            object-position: center !important;
+            margin: 0 !important;
+        }
+        .application-compare {
+            overflow: visible !important;
         }
 
         /* App thumbnails: remove background/border and fill boxes */
@@ -255,22 +431,15 @@
             overflow-y: hidden;
         }
                 .application-compare {
-                    height: 18.6vh !important;
-                    max-height: 18.6vh !important;
-                    margin-top: 4vh !important;
-                    overflow: visible !important;
+                    /* 높이/마진 등은 필요시 유지, before/after 이미지 스타일은 제거 */
                 }
         .application-compare .compare-after {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center;
+            /* 불필요: compare에서 통합 관리 */
         }
 
         /* Application: scale/shift only the right-side image */
         .application-compare .compare-after {
-            transform: translateY(var(--image-shift-y, 0px)) scale(var(--image-scale-after, 0.905));
-            transform-origin: center;
+            /* 불필요: compare에서 통합 관리 */
         }
 
         /* Application: reverse overlay (show result image on the right side) */
@@ -722,6 +891,36 @@
             color: var(--badge-after-color, #F57799);
         }
 
+        /* Results section: separate caption positioning and push captions lower
+           High-specificity selectors ensure perf/application rules don't override these */
+        /* Results-section: strong, element-level badge positioning and appearance
+           Force before->left & after->right and normalize small caption look. */
+        .section#results-section .results-grid .compare > .compare-badge {
+            top: -22px !important;
+            font-size: 0.62rem !important;
+            padding: 4px 10px !important;
+            background: #fff !important;
+            color: #444 !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            z-index: 250 !important;
+            display: inline-block !important;
+            opacity: 1 !important;
+            transform: none !important;
+            pointer-events: none !important;
+            white-space: nowrap !important;
+        }
+
+        .section#results-section .results-grid .compare > .compare-badge.before {
+            left: 5px !important;
+            right: auto !important;
+        }
+        .section#results-section .results-grid .compare > .compare-badge.after {
+            right: 1px !important;
+            left: auto !important;
+            color: var(--badge-after-color, #F57799) !important;
+        }
+
         /* Results Row 1: cluster input person/result badges near center */
         .results-grid:nth-of-type(2) .compare {
             --badge-gap: 35px; /* gap for input person */
@@ -1009,6 +1208,37 @@
             border-top: 2px solid #ddd;
         }
 
+        /* FINAL: Ensure Results section badge positions/colors are authoritative */
+        /* Strong override: ensure Results badges are visible and positioned higher/right
+           This neutralizes earlier rules that hid badges in certain result rows. */
+        #results-section .results-grid .compare > .compare-badge {
+            display: inline-block !important;
+            top: -48px !important;
+            font-size: 0.62rem !important;
+            padding: 4px 10px !important;
+            background: #fff !important;
+            color: #444 !important;
+            z-index: 99999 !important;
+            transform: none !important;
+            pointer-events: none !important;
+            white-space: nowrap !important;
+        }
+        #results-section .results-grid .compare > .compare-badge.before {
+            left: 40px !important;
+            right: auto !important;
+            color: #222 !important;
+        }
+        #results-section .results-grid .compare > .compare-badge.after {
+            right: 40px !important;
+            left: auto !important;
+            color: #F57799 !important;
+        }
+
+            /* Application compare: 강제 margin 제거 (가장 마지막에 위치, 우선순위 확보) */
+            .application-compare .compare-before,
+            .application-compare .compare-after {
+                margin: 0 !important;
+            }
     </style>
 </head>
 <body>
@@ -1294,6 +1524,36 @@
                     </div>
                 </div>
                 </div>
+    <script>
+        // Robust normalization for Results-section badges:
+        // 1) Ensure left badge has class 'before' and right badge 'after'
+        // 2) Set consistent text and colors
+        function normalizeResultsBadges(){
+            const results = document.getElementById('results-section');
+            if(!results) return;
+            results.querySelectorAll('.compare').forEach(c=>{
+                const badges = Array.from(c.querySelectorAll('.compare-badge'));
+                if(badges.length < 2) return;
+                // determine left/right by rendered position
+                const rects = badges.map(b=>({b, r: b.getBoundingClientRect()}));
+                rects.sort((x,y)=> x.r.left - y.r.left);
+                const leftBadge = rects[0].b, rightBadge = rects[1].b;
+                // enforce classes
+                leftBadge.classList.add('before'); leftBadge.classList.remove('after');
+                rightBadge.classList.add('after'); rightBadge.classList.remove('before');
+                // apply texts/colors
+                leftBadge.textContent = '⬅ input person';
+                leftBadge.style.color = '#222';
+                rightBadge.textContent = 'result ⮕';
+                rightBadge.style.color = '#F57799';
+            });
+        }
+        document.addEventListener('DOMContentLoaded', ()=>{
+            // run once after layout; also run again after a short delay to catch late layout changes
+            normalizeResultsBadges();
+            setTimeout(normalizeResultsBadges, 80);
+        });
+    </script>
                 </div>
 
                 <!-- Perf Set 2 (duplicate of set 1) -->
@@ -1311,13 +1571,13 @@
                         <div class="app-garment">
                         <img src="./image/baseline_comp/02094_00.jpg" alt="Garment 01">
                         </div>
-                        <div class="app-image-label">Dress Garment</div>
+                        <div class="app-image-label">Garment</div>
                         </div>
                         <div class="app-image-wrapper">
                         <div class="app-input-person">
                         <img src="./image/baseline_comp/11632_00.jpg" alt="Input Person 01">
                         </div>
-                        <div class="app-image-label">Input Person</div>
+                        <div class="app-image-label">Person</div>
                         </div>
                         </div>
                         <div class="app-meta">
@@ -1326,7 +1586,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample7 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample1" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/baseline_comp/11632_00_baseline.png" alt="Input model">
                         <img class="compare-after" src="./image/baseline_comp/11632_00_ours.png" alt="Try-on result">
                         <div class="compare-badge before">⬅ w/o CORAL</div>
@@ -1798,7 +2058,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample1 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-app-scale-after="1.021" data-app-shift-y="-5.5" style="margin-top:0px;">
+                    <div class="compare sample1" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/529_1.png" alt="Input model">
                         <img class="compare-after" src="./image/app/529_1_1192_1.png" alt="Try-on result">
 
@@ -1833,7 +2093,7 @@
                             </div>
                         </div>
 
-                        <div class="compare sample2 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                        <div class="compare sample2" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                             <img class="compare-before" src="./image/app/777_2.png" alt="Input model">
                             <img class="compare-after" src="./image/app/777_2_582_0.png" alt="Try-on result">
 
@@ -1868,7 +2128,7 @@
                             </div>
                         </div>
 
-                        <div class="compare sample3 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                        <div class="compare sample3" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                             <img class="compare-before" src="./image/app/812_4.png" alt="Input model">
                             <img class="compare-after" src="./image/app/812_4_1297_7.png" alt="Try-on result">
 
@@ -1910,7 +2170,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample4 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample4" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/361_2.png" alt="Input model">
                         <img class="compare-after" src="./image/app/361_2_717_0.png" alt="Try-on result">
 
@@ -1945,7 +2205,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample5 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample5" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/1454_0.png" alt="Input model">
                         <img class="compare-after" src="./image/app/1454_0_1434_0.png" alt="Try-on result">
 
@@ -1980,7 +2240,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample6 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample6" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/200_2.png" alt="Input model">
                         <img class="compare-after" src="./image/app/200_2_184_3.png" alt="Try-on result">
 
@@ -2025,7 +2285,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample7 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample7" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
 			<img class="compare-before" src="./image/app/988_0.png" alt="Try-on result">
 			<img class="compare-after" src="./image/app/988_0_1008_4.png" alt="Input model">
 
@@ -2060,7 +2320,7 @@
                             </div>
                         </div>
 
-                        <div class="compare sample8 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                        <div class="compare sample8" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                             <img class="compare-before" src="./image/app/351_2.png" alt="Try-on result">
                             <img class="compare-after" src="./image/app/351_2_376_3.png" alt="Input model">
 
@@ -2095,7 +2355,7 @@
                             </div>
                         </div>
 
-                        <div class="compare sample9 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                        <div class="compare sample9" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                             <img class="compare-before" src="./image/app/783_3.png" alt="Try-on result">
                             <img class="compare-after" src="./image/app/783_3_477_0.png" alt="Input model">
 
@@ -2137,7 +2397,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample10 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample10" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/642_2.png" alt="Try-on result">
                         <img class="compare-after" src="./image/app/642_2_423_2.png" alt="Input model">
 
@@ -2172,7 +2432,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample11 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample11" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/1264_6.png" alt="Try-on result">
                         <img class="compare-after" src="./image/app/1264_6_832_1.png" alt="Input model">
 
@@ -2207,7 +2467,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample12 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample12" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/929_2.png" alt="Try-on result">
                         <img class="compare-after" src="./image/app/929_2_514_0.png" alt="Input model">
 
@@ -2252,7 +2512,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample13 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample13" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/19_0.png" alt="Try-on result">
                         <img class="compare-after" src="./image/app/19_0_1454_0.png" alt="Input model">
 
@@ -2287,7 +2547,7 @@
                             </div>
                         </div>
 
-                        <div class="compare sample14 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                        <div class="compare sample14" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                             <img class="compare-before" src="./image/app/302_3.png" alt="Try-on result">
                             <img class="compare-after" src="./image/app/302_3_404_2.png" alt="Input model">
 
@@ -2322,7 +2582,7 @@
                             </div>
                         </div>
 
-                        <div class="compare sample15 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                        <div class="compare sample15" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                             <img class="compare-before" src="./image/app/661_5.png" alt="Try-on result">
                             <img class="compare-after" src="./image/app/661_5_460_5.png" alt="Input model">
 
@@ -2364,7 +2624,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample16 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample16" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/1201_4.png" alt="Try-on result">
                         <img class="compare-after" src="./image/app/1201_4_497_1.png" alt="Input model">
 
@@ -2399,7 +2659,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample17 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample17" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/325_1.png" alt="Try-on result">
                         <img class="compare-after" src="./image/app/325_1_378_3.png" alt="Input model">
 
@@ -2434,7 +2694,7 @@
                         </div>
                     </div>
 
-                    <div class="compare sample18 application-compare" data-auto="true" data-speed="22" data-min="5" data-max="95" data-default="85" data-app-scale-after="1.021" data-app-shift-y="-5.5">
+                    <div class="compare sample18" data-auto="true" data-speed="22" data-min="5" data-max="99" data-default="70" data-shift-y="-5.5">
                         <img class="compare-before" src="./image/app/1565_0.png" alt="Try-on result">
                         <img class="compare-after" src="./image/app/1565_0_689_5.png" alt="Input model">
 
@@ -3113,38 +3373,20 @@
 
         // Allow per-card visual tweaks via data attributes
         const ds = el.dataset;
-        const isApplication = el.classList.contains('application-compare');
-        // Section-specific controls
-        if (isApplication) {
-            const appShift = ds.appShiftY ?? ds.shiftY;
-            if (appShift !== undefined) {
-                const val = /px$/.test(appShift) ? appShift : `${appShift}px`;
-                el.style.setProperty('--image-shift-y', val);
-            }
-            const appScale = ds.appScaleAfter ?? ds.scaleAfter ?? ds.scale;
-            if (appScale !== undefined) {
-                el.style.setProperty('--image-scale-after', appScale);
-            }
-            const appHeight = ds.appHeight ?? ds.height;
-            if (appHeight !== undefined) {
-                const hv = /px|%|vh|vw|rem|em$/.test(appHeight) ? appHeight : `${appHeight}px`;
-                el.style.height = hv;
-            }
-        } else {
-            const perfShift = ds.perfShiftY ?? ds.shiftY;
-            if (perfShift !== undefined) {
-                const val = /px$/.test(perfShift) ? perfShift : `${perfShift}px`;
-                el.style.setProperty('--image-shift-y', val);
-            }
-            const perfScale = ds.perfScale ?? ds.scale;
-            if (perfScale !== undefined) {
-                el.style.setProperty('--image-scale-after', perfScale);
-            }
-            const perfHeight = ds.perfHeight ?? ds.height;
-            if (perfHeight !== undefined) {
-                const hv = /px|%|vh|vw|rem|em$/.test(perfHeight) ? perfHeight : `${perfHeight}px`;
-                el.style.height = hv;
-            }
+        // Section-specific controls (application-compare 제거, height/shift/scale만 단일 처리)
+        const shift = ds.appShiftY ?? ds.perfShiftY ?? ds.shiftY;
+        if (shift !== undefined) {
+            const val = /px$/.test(shift) ? shift : `${shift}px`;
+            el.style.setProperty('--image-shift-y', val);
+        }
+        const scale = ds.appScaleAfter ?? ds.perfScale ?? ds.scaleAfter ?? ds.scale;
+        if (scale !== undefined) {
+            el.style.setProperty('--image-scale-after', scale);
+        }
+        const height = ds.appHeight ?? ds.perfHeight ?? ds.height;
+        if (height !== undefined) {
+            const hv = /px|%|vh|vw|rem|em$/.test(height) ? height : `${height}px`;
+            el.style.height = hv;
         }
 
         const setPos = (v) => {
@@ -3156,6 +3398,9 @@
         // Allow per-card default starting position via data-default
         const initial = parseFloat(el.dataset.default || range.value || '50');
         setPos(initial);
+
+        // compareObj will be created later; declare here so event handlers can reference it
+        let compareObj = null;
 
         let raf = null;
         let lastT = null;
@@ -3200,8 +3445,9 @@
         }
 
         // limit follow to pointer movement inside this compare element
+        // Only follow pointer when this compare is in localActive (per-image) mode
         el.addEventListener('mousemove', (e) => {
-            pause();
+            if (!compareObj || !compareObj.localActive) return;
             const rect = el.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const percent = (x / rect.width) * 100;
@@ -3209,8 +3455,8 @@
             setPos(clamped);
         });
         el.addEventListener('touchmove', (e) => {
+            if (!compareObj || !compareObj.localActive) return;
             if (!e.touches || !e.touches[0]) return;
-            pause();
             const rect = el.getBoundingClientRect();
             const x = e.touches[0].clientX - rect.left;
             const percent = (x / rect.width) * 100;
@@ -3221,8 +3467,25 @@
         // start animation
         start();
 
+        // Allow click to toggle local (per-image) binding
+        // We'll expose the localActive flag on the compare object so global handler can skip it
+        compareObj = { el, setPos, stop, pause, start, min, max, localActive: false };
+        el.addEventListener('click', (ev) => {
+            // toggle local mode for this compare
+            compareObj.localActive = !compareObj.localActive;
+            if (compareObj.localActive) {
+                // switch to local control: pause auto and stop global updates
+                pause();
+            } else {
+                // resume auto animation
+                pausedByUser = false;
+                start();
+            }
+            ev.stopPropagation();
+        });
+
         // Register this compare for global mouse control
-        compares.push({ el, setPos, stop, pause, min, max });
+        compares.push(compareObj);
     }
 
     // Set compare container aspect-ratio from image natural size to remove vertical letterboxing
@@ -3252,14 +3515,46 @@
 
     const applyGlobalX = (clientX) => {
         if (magnifierMode) return; // 돋보기 모드일 때는 슬라이더 움직이지 않음
+        // Compute a single global percent based on viewport X so all compares follow together
         const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        const globalPercent = (clientX / vw) * 100;
+        const globalPercent = clamp((clientX / vw) * 100, 0, 100);
         compares.forEach(c => {
-            c.pause();
-            const clamped = clamp(globalPercent, c.min, c.max);
-            c.setPos(clamped);
+            try {
+                // skip compares that are in local (per-image) control
+                if (c.localActive) return;
+                const clamped = clamp(globalPercent, c.min, c.max);
+                c.pause();
+                smoothSetPos(c, clamped);
+            } catch (e) {
+                // if a compare fails, ignore it
+            }
         });
     };
+
+    // Smoothly animate a compare from its current value to `target` to slow responsiveness
+    function smoothSetPos(c, target) {
+        const range = c.el.querySelector('.compare-range');
+        let current = range ? parseFloat(range.value || '50') : null;
+        if (current === null || Number.isNaN(current)) current = 50;
+        // cancel any in-flight smoothing
+        if (c._smoothAnim) cancelAnimationFrame(c._smoothAnim);
+
+        const step = () => {
+            const diff = target - current;
+            // simple easing: move a fraction of the remaining distance
+            const delta = diff * 0.45; // larger = faster/less slippery
+            if (Math.abs(diff) < 0.5) {
+                current = target;
+                c.setPos(current);
+                c._smoothAnim = null;
+                return;
+            }
+            current = clamp(current + delta, 0, 100);
+            c.setPos(current);
+            c._smoothAnim = requestAnimationFrame(step);
+        };
+        c._smoothAnim = requestAnimationFrame(step);
+    }
 
     document.addEventListener('mousemove', (e) => {
         applyGlobalX(e.clientX);
@@ -3269,6 +3564,18 @@
         if (!e.touches || !e.touches[0]) return;
         applyGlobalX(e.touches[0].clientX);
     }, { passive: true });
+
+    // Clicking outside any compare clears per-image local binding and restores global behavior
+    document.addEventListener('click', (e) => {
+        if (e.target.closest && e.target.closest('.compare')) return;
+        compares.forEach(c => {
+            if (c.localActive) {
+                c.localActive = false;
+                // resume auto animation
+                try { c.start(); } catch (err) {}
+            }
+        });
+    });
 
     // 클릭하면 돋보기 모드 토글
     window.toggleMagnifierMode = (enable) => {
@@ -3341,7 +3648,7 @@
             grid.querySelectorAll('.compare').forEach(cmp => {
                 cmp.style.aspectRatio = '';
                 const ds = cmp.dataset;
-                const dh = ds.height ?? (cmp.classList.contains('application-compare') ? ds.appHeight : ds.perfHeight);
+                const dh = ds.appHeight ?? ds.perfHeight ?? ds.height;
                 if (dh !== undefined) {
                     const hv = /px|%|vh|vw|rem|em$/.test(dh) ? dh : `${dh}px`;
                     cmp.style.height = hv;

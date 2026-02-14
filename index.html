@@ -1245,18 +1245,21 @@
 
     <div class="header">
         <div class="container">
-            <h1 class="title"> <img class="title-mascot" src="./image/coral-final.png" alt="coral mascot">  <span class="title-text">CORAL</span></h1>
+            <h1 class="title"> 
+                <img class="title-mascot" src="./image/coral-final.gif" alt="coral mascot" onerror="this.onerror=null; this.src='./image/coral-final.png'" style="width:56px;height:auto;vertical-align:middle;transform:translate(-70px,-30px);"> 
+                <span class="title-text">CORAL</span>
+            </h1>
             <p class="subtitle">Correspondence Alignment for Improved Virtual Try-On</p>
             
             <div class="authors">
                 Jiyoung Kim<span class="symbol">1</span>, 
-                <span class="symbol">1</span>, 
-               <span class="symbol">1</span>, 
-                <span class="symbol">1</span>, 
-                <span class="symbol">1</span>,<br>
-                <span class="symbol">1</span>, 
-                <span class="symbol">2</span>, 
-                <span class="symbol">2</span>,
+                Youngjin Shin<span class="symbol">1</span>, 
+               Siyoon Jin<span class="symbol">1</span>, 
+                Dahyun Chung<span class="symbol">1</span>, 
+                Jisu Nam<span class="symbol">1</span>,<br>
+                Tongmin Kim<span class="symbol">1</span>, 
+                Jongjae Park<span class="symbol">2</span>, 
+                Hyeonwoo Kang<span class="symbol">2</span>,
                 Seungryong Kim<span class="symbol">1,†</span>
             </div>
             
@@ -1297,7 +1300,7 @@
                         <button class="result-tab-btn" data-tab="perf-3">Result 3</button>
                     </div>
                 </div>
-                <p style="font-size: 1rem; color: #aaa; margin: 0 -60px 10px 60px;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
+                <p style="font-size: 1rem; color: #aaa; margin: 0 -60px 10px 60px;">↔️ For detailed comparison, move the slider on the image left and right.<br>👉 Click on the image to use its own slider. Click again to resume.<br>🔍 Click the Zoom button to view details.</p>
 
                 <!-- Perf Set 1 (active) -->
                 <div class="result-set active" id="perf-1" data-group="perf">
@@ -1750,7 +1753,7 @@
                         <div class="app-garment">
                         <img src="./image/baseline_comp/052095_1.jpg" alt="Garment 06">
                         </div>
-                        <div class="app-image-label">Garment</div>
+                        <div class="app-image-label">Dress Garment</div>
                         </div>
                         <div class="app-image-wrapper">
                         <div class="app-input-person">
@@ -2026,7 +2029,7 @@
                         <button class="result-tab-btn" data-tab="result-3">Result 3</button>
                     </div>
                 </div>
-                <p style="font-size: 1rem; color: #aaa; margin: 0 -60px 10px 60px;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
+                <p style="font-size: 1rem; color: #aaa; margin: 0 -60px 10px 60px;">↔️ For detailed comparison, move the slider on the image left and right.<br>👉 Click on the image to use its own slider. Click again to resume.<br>🔍 Click the Zoom button to view details.</p>
 
                 <!-- Result Set 1 -->
                 <div class="result-set active" id="result-1">
@@ -2744,7 +2747,7 @@
             <div class="section" id="results-section">
                 <h2 class="section-title">Results</h2>
                 <h2 class="section-title-small" style="margin-bottom:35px; color : #888; font-weight:100; font-size:1.55rem;">Qualitative Results</h2>
-                <p style="font-size: 1rem; color: #aaa; margin: 0 0 50px 0px; text-align: left;">↔️ For detailed comparison, move the slider on the image left and right.<br>🔍 Click to pause the slider and enable zoom mode. Click again to resume.</p>
+                <p style="font-size: 1rem; color: #aaa; margin: 0 0 50px 0px; text-align: left;">↔️ For detailed comparison, move the slider on the image left and right.<br>👉 Click on the image to use its own slider. Click again to resume.<br>🔍 Click the Zoom button to view details.</p>
 
                 <!-- Method Labels (top) -->
                 <div class="results-grid" style="margin-top: -30px; margin-bottom: 25px;">
@@ -3399,6 +3402,16 @@
         const initial = parseFloat(el.dataset.default || range.value || '50');
         setPos(initial);
 
+        // Make the native range input drive the compare when user drags it directly.
+        // This ensures dragging the invisible range will update visuals immediately.
+        range.addEventListener('input', () => {
+            const v = parseFloat(range.value || '50');
+            setPos(v);
+            // mark as user-controlled so auto animation won't resume
+            pausedByUser = true;
+            if (compareObj) try { compareObj.localActive = true; } catch (e) {}
+        });
+
         // compareObj will be created later; declare here so event handlers can reference it
         let compareObj = null;
 
@@ -3671,120 +3684,202 @@
     window.addEventListener('load', () => { initTabDisplays(); equalizeGridHeights(); });
     window.addEventListener('resize', equalizeGridHeights);
 
-    // ===== Magnifier (돋보기) 기능 =====
+    // ===== Magnifier (돋보기) 기능 + 섹션별 토글 버튼 =====
     (function(){
+        // 스타일 (간단한 버튼과 돋보기 스타일)
+        const style = document.createElement('style');
+        style.textContent = `
+            .zoom-toggle{ display:inline-flex; align-items:center; gap:8px; margin-left:12px; padding:8px 12px; border-radius:999px; border:1px solid rgba(0,0,0,0.08); background:linear-gradient(180deg,#fff,#f7f7f8); color:#333; font-size:0.95rem; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.06); transition:all 160ms ease; }
+            .zoom-toggle:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,0.08); }
+            .zoom-toggle.active{ background:#F57799; color:#fff; border-color:transparent; box-shadow:0 8px 22px rgba(245,119,153,0.18); }
+            .zoom-toggle .label{ font-weight:600; }
+            .zoom-toggle .icon{ font-size:1.05rem; }
+            .magnifier{ position:fixed; width:150px; height:150px; border-radius:6px; pointer-events:none; z-index:9999; background-repeat:no-repeat; background-position:center; background-size:cover; box-shadow:0 8px 24px rgba(0,0,0,0.18); transition:opacity 0.06s; opacity:0; }
+            .magnifier.active{ opacity:1; }
+        `;
+        document.head.appendChild(style);
+
         const magnifier = document.createElement('div');
         magnifier.className = 'magnifier';
         document.body.appendChild(magnifier);
 
-        // 안내 메시지 생성
-        const tooltip = document.createElement('div');
-        tooltip.className = 'magnifier-tooltip';
-            tooltip.innerHTML = 'Click to enable zoom mode';
-        tooltip.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:9998;transition:opacity 0.3s;pointer-events:none;';
-        document.body.appendChild(tooltip);
-        setTimeout(() => { tooltip.style.opacity = '0'; }, 3000);
-
         const ZOOM = 3;
         const SIZE = 150;
-        let isActive = false; // 돋보기 모드 활성화 여부
+        let isActive = false; // 현재 표시 여부 (hover-driven)
         let currentTarget = null;
         let rafId = null;
 
         function updateMagnifier(img, clientX, clientY) {
             if (!isActive || !img) return;
-            
             const rect = img.getBoundingClientRect();
             const x = clientX - rect.left;
             const y = clientY - rect.top;
-            
-            // 이미지 영역 밖이면 숨김
             if (x < 0 || x > rect.width || y < 0 || y > rect.height) {
                 magnifier.classList.remove('active');
                 return;
             }
-            
             const percX = x / rect.width;
             const percY = y / rect.height;
-
             const bgWidth = rect.width * ZOOM;
             const bgHeight = rect.height * ZOOM;
             const bgX = -(percX * bgWidth - SIZE / 2);
             const bgY = -(percY * bgHeight - SIZE / 2);
-
             let magX = clientX - SIZE / 2;
             let magY = clientY - SIZE - 15;
-
             if (magY < 10) magY = clientY + 20;
             if (magX < 10) magX = 10;
             if (magX + SIZE > window.innerWidth - 10) magX = window.innerWidth - SIZE - 10;
-
             magnifier.style.left = magX + 'px';
             magnifier.style.top = magY + 'px';
+            magnifier.style.width = SIZE + 'px';
+            magnifier.style.height = SIZE + 'px';
             magnifier.style.backgroundImage = `url('${img.src}')`;
             magnifier.style.backgroundSize = `${bgWidth}px ${bgHeight}px`;
             magnifier.style.backgroundPosition = `${bgX}px ${bgY}px`;
             magnifier.classList.add('active');
         }
 
-        function hideMagnifier() {
+        function hideMagnifier(){
             magnifier.classList.remove('active');
-            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-        }
-
-        function deactivate() {
+            if (rafId){ cancelAnimationFrame(rafId); rafId = null; }
             isActive = false;
             currentTarget = null;
-            hideMagnifier();
-            document.body.style.cursor = '';
-            if (window.toggleMagnifierMode) window.toggleMagnifierMode(false);
         }
 
-        // 클릭으로 돋보기 모드 활성화/비활성화 (아무 곳이나 클릭)
-        document.addEventListener('click', (e) => {
-            const img = e.target.closest('.compare-after, .app-garment img');
-            
-            if (isActive) {
-                // 돋보기 모드 비활성화
-                deactivate();
-            } else {
-                // 아무 곳이나 클릭하면 돋보기 모드 활성화
-                isActive = true;
-                document.body.style.cursor = 'zoom-out';
-                if (window.toggleMagnifierMode) window.toggleMagnifierMode(true);
-                
-                // 이미지 위에서 클릭했으면 바로 돋보기 표시
-                if (img) {
-                    currentTarget = img;
-                    updateMagnifier(img, e.clientX, e.clientY);
+        // 섹션별 토글 버튼 생성: Performance / Application / Results 섹션에 추가
+        const targets = ['Performance Gains over Baseline','Application : Person-to-Person','Results'];
+        const activeSections = new Set();
+
+        document.querySelectorAll('.section').forEach(section => {
+            const h2 = section.querySelector('.section-title');
+            if (!h2) return;
+            const text = (h2.textContent||'').trim();
+            if (targets.some(t => text.indexOf(t) === 0 || text.includes(t))){
+                const btn = document.createElement('button');
+                btn.className = 'zoom-toggle';
+                btn.type = 'button';
+                btn.setAttribute('aria-pressed','false');
+                btn.innerHTML = `<span class="icon">🔍</span><span class="label">Zoom</span>`;
+                // 기본 오른쪽 여백과 섹션별 조정: Results 섹션은 버튼을 더 오른쪽에 붙임
+                btn.style.flex = '0 0 auto';
+                const headingText = (h2.textContent||'').trim();
+                if (headingText.includes('Results')) {
+                    btn.style.marginRight = '2px';
+                } else if (headingText.includes('Performance Gains')) {
+                    // Performance 섹션은 버튼 오른쪽 여백을 70px로 조정
+                    btn.style.marginRight = '70px';
+                } else {
+                    btn.style.marginRight = '48px';
                 }
+
+                // 우선 배치 위치: 안내 문구(p 요소)에 'Click to pause the slider' 텍스트가 있으면 그 바로 뒤에 추가
+                const guidance = Array.from(section.querySelectorAll('p')).find(p => {
+                    const t = (p.textContent||'');
+                    return t.includes('Click to pause the slider') || t.includes('Click on the image') || t.includes('For detailed comparison');
+                });
+                if (guidance){
+                    // guidance 문단을 flex 컨테이너로 바꿔 텍스트는 왼쪽, 버튼은 오른쪽 끝으로 배치
+                    const existingHTML = guidance.innerHTML;
+                    guidance.innerHTML = '';
+                    guidance.style.display = 'flex';
+                    guidance.style.alignItems = 'center';
+                    guidance.style.gap = '12px';
+                    guidance.style.justifyContent = 'space-between';
+
+                    const leftSpan = document.createElement('div');
+                    leftSpan.className = 'zoom-guidance-text';
+                    leftSpan.style.flex = '1';
+                    leftSpan.style.minWidth = '0';
+                    leftSpan.innerHTML = existingHTML;
+                    guidance.appendChild(leftSpan);
+                    guidance.appendChild(btn);
+                } else {
+                    h2.insertAdjacentElement('afterend', btn);
+                }
+
+                btn.addEventListener('click', (e) => {
+                    const on = btn.classList.toggle('active');
+                    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                    if (on) {
+                        section.classList.add('zoom-enabled');
+                        activeSections.add(section);
+                        // enter magnifier mode globally to stop global slider following
+                        if (window.toggleMagnifierMode) window.toggleMagnifierMode(true);
+                        // set compares inside this section to local control so they become draggable
+                        try {
+                            compares.forEach(c => {
+                                if (section.contains(c.el)) {
+                                    c.localActive = true;
+                                    try { c.pause(); } catch (err) {}
+                                }
+                            });
+                        } catch (err) {}
+                    } else {
+                        section.classList.remove('zoom-enabled');
+                        activeSections.delete(section);
+                        // if no active sections remain, disable magnifier mode
+                        if (activeSections.size === 0) {
+                            if (window.toggleMagnifierMode) window.toggleMagnifierMode(false);
+                        }
+                        // restore compares in this section to global control
+                        try {
+                            compares.forEach(c => {
+                                if (section.contains(c.el)) {
+                                    c.localActive = false;
+                                    try { c.start(); } catch (err) {}
+                                }
+                            });
+                        } catch (err) {}
+                        hideMagnifier();
+                    }
+                });
             }
         });
 
-        // 돋보기 모드일 때 마우스 이동으로 돋보기 업데이트
+        // 마우스 이동: 활성화된 섹션의 이미지 위에서만 돋보기가 활성화
         document.addEventListener('mousemove', (e) => {
-            if (!isActive) return;
-            
-            const img = e.target.closest('.compare-after, .app-garment img');
-            if (img) {
-                currentTarget = img;
+            // Try to find an image under the pointer. If pointer is over the invisible range input,
+            // the input won't be an <img>, so search for nearest compare container and pick its image.
+            let img = e.target.closest('img');
+            if (!img) {
+                const cmp = e.target.closest('.compare, .app-garment, .app-image-wrapper');
+                if (cmp) {
+                    img = cmp.querySelector('.compare-after, .app-garment img, img');
+                }
             }
-            
-            if (currentTarget) {
-                if (rafId) return;
-                rafId = requestAnimationFrame(() => {
-                    updateMagnifier(currentTarget, e.clientX, e.clientY);
-                    rafId = null;
-                });
-            } else {
+            if (!img){ hideMagnifier(); return; }
+            const sect = img.closest('.section');
+            if (!sect || !activeSections.has(sect)) { hideMagnifier(); return; }
+            // 활성화된 섹션의 이미지 위일 때만 표시
+            currentTarget = img;
+            if (rafId) return;
+            rafId = requestAnimationFrame(() => {
+                isActive = true;
+                updateMagnifier(currentTarget, e.clientX, e.clientY);
+                rafId = null;
+            });
+        });
+
+        // 마우스가 영역을 떠나면 숨김
+        document.addEventListener('mouseout', (e) => {
+            if (!e.relatedTarget || !(e.relatedTarget instanceof Element)) {
                 hideMagnifier();
             }
         });
 
-        // ESC 키로 돋보기 모드 해제
+        // ESC 키로 모든 섹션 토글 해제
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && isActive) {
-                deactivate();
+            if (e.key === 'Escape'){
+                // deactivate UI
+                document.querySelectorAll('.zoom-toggle.active').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+                // restore compares to global behavior
+                try {
+                    compares.forEach(c => { if (c.localActive) { c.localActive = false; try { c.start(); } catch (err) {} } });
+                } catch (err) {}
+                activeSections.clear();
+                // disable magnifier global flag
+                if (window.toggleMagnifierMode) window.toggleMagnifierMode(false);
+                hideMagnifier();
             }
         });
     })();
